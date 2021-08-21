@@ -6,6 +6,8 @@ import { Text } from '@components/assets/Text';
 import { Dropdown as BootstrapDropdown } from 'react-bootstrap';
 import Assets from '@util/Assets';
 
+// TODO : change color
+
 interface Props {
   choices?: string[];
   value?: string;

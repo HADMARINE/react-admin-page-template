@@ -1,15 +1,102 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Text } from '@components/assets/Text';
+import { ColorGen as Color } from '@components/assets/Color';
 
-interface InputProps extends ReactCustomElementProps {
-  hello?: string;
+interface Props {
+  variant?: 'primary' | 'error';
+  width?: string;
+  height?: string;
+  fontSize?: string;
+  fontWeight?: number;
+  onChange?: ReactTypes.onChange;
+  onKeyDown?: ReactTypes.onKeyDown;
+  value?: ReactTypes.value;
+  placeholder?: string;
+  blur?: boolean;
+  border?: string;
+  type?: string;
+  object?: React.ReactNode;
+  objectAlign?: 'left' | 'right';
+  name?: string;
+  key?: any;
+  flex?: number | string;
+  props?: Record<string, any>;
+  error?: string;
+  style?: React.CSSProperties;
+  ref?: any;
 }
 
-export const InputGen = (props: InputProps) => {
-  // eslint-disable-next-line no-underscore-dangle
-  const _Input = styled.input``;
-
-  return <_Input>{props.children}</_Input>;
+const theme: Record<string, React.CSSProperties> = {
+  primary: { color: 'black', backgroundColor: 'white' },
+  error: {
+    color: 'black',
+    backgroundColor: '#ffcabf',
+    border: '1px solid red',
+  },
 };
 
-export default { gen: InputGen };
+export default function Input(props: Props) {
+  const InputStyle: React.CSSProperties = {
+    width: '100%',
+    height: '100%',
+    border: props.border || 0,
+    borderRadius: '3px',
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    fontSize: props.fontSize || '16px',
+    fontWeight: props.fontWeight || 500,
+    padding: props.objectAlign === 'left' ? '0 20px 0 45px' : '0 20px 0 20px',
+    margin: 0,
+    boxSizing: 'border-box',
+    ...theme[props.error ? 'error' : props.variant || 'primary'],
+    ...props.style,
+  };
+
+  const WrapperStyle: React.CSSProperties = {
+    width: props.width,
+    height: props.height,
+    margin: '10px 0',
+    display: 'flex',
+    flexDirection: 'row',
+    flex: props.flex,
+    justifyContent: props.objectAlign === 'left' ? 'flex-start' : 'flex-end',
+    alignItems: 'center',
+  };
+
+  const AbsoluteWrapper = styled.span`
+    position: absolute;
+    ${props.objectAlign === 'left' ? 'padding-left' : 'padding-right'}: 10px;
+  `;
+
+  return (
+    <div style={{ flex: props.flex }}>
+      <div style={WrapperStyle}>
+        <input
+          style={{
+            ...InputStyle,
+            ...(props.object ? { paddingRight: '20px' } : {}),
+          }}
+          placeholder={props.placeholder}
+          type={props.blur ? 'password' : props.type || 'text'}
+          onChange={props.onChange}
+          onKeyDown={props.onKeyDown}
+          value={props.value}
+          name={props.name || ''}
+          {...props.props}
+        />
+        {props.object ? (
+          <AbsoluteWrapper>{props.object}</AbsoluteWrapper>
+        ) : (
+          <></>
+        )}
+      </div>
+      {props.error && (
+        <Text style={{ marginLeft: '5px', marginTop: '-10px' }}>
+          <Color color={'red'}>{props.error}</Color>
+        </Text>
+      )}
+    </div>
+  );
+}

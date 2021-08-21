@@ -4,7 +4,7 @@ import { Flex } from '@src/components/assets/Wrapper';
 import Color from '@src/components/assets/Color';
 import styled from 'styled-components';
 import colorSettings from '@settings/color.json';
-import { InputGen } from '@src/components/assets/Input';
+import Input from '@components/assets/Input';
 
 const Login = () => (
   <Flex vertical fit style={{ backgroundColor: colorSettings.keyColor }}>
@@ -12,7 +12,7 @@ const Login = () => (
       <Color.background>Login</Color.background>
     </Text>
 
-    <InputGen />
+    <Input />
   </Flex>
 );
 
