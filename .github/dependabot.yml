@@ -1,0 +1,125 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "20:00"
+  target-branch: develop
+  open-pull-requests-limit: 20
+  ignore:
+  - dependency-name: "@types/node"
+    versions:
+    - 14.14.31
+    - 14.14.32
+    - 14.14.33
+    - 14.14.34
+    - 14.14.35
+    - 14.14.36
+    - 14.14.37
+    - 14.14.39
+    - 14.14.41
+    - 15.0.0
+  - dependency-name: "@testing-library/user-event"
+    versions:
+    - 12.7.0
+    - 12.7.1
+    - 12.7.2
+    - 12.8.1
+    - 12.8.3
+    - 13.0.0
+    - 13.0.1
+    - 13.0.10
+    - 13.0.11
+    - 13.0.16
+    - 13.0.2
+    - 13.0.6
+    - 13.0.7
+    - 13.1.1
+    - 13.1.2
+    - 13.1.5
+  - dependency-name: mobx
+    versions:
+    - 5.15.7
+    - 6.1.7
+    - 6.1.8
+    - 6.2.0
+  - dependency-name: eslint
+    versions:
+    - 7.20.0
+    - 7.21.0
+    - 7.22.0
+    - 7.23.0
+    - 7.24.0
+  - dependency-name: "@typescript-eslint/eslint-plugin-tslint"
+    versions:
+    - 4.15.0
+    - 4.15.1
+    - 4.16.1
+    - 4.17.0
+    - 4.18.0
+    - 4.19.0
+    - 4.20.0
+    - 4.21.0
+  - dependency-name: react-app-rewire-alias
+    versions:
+    - 0.2.0
+    - 0.2.1
+    - 1.0.1
+    - 1.0.2
+  - dependency-name: "@babel/preset-env"
+    versions:
+    - 7.13.10
+    - 7.13.12
+    - 7.13.5
+    - 7.13.8
+    - 7.13.9
+  - dependency-name: "@types/react-router"
+    versions:
+    - 5.1.12
+  - dependency-name: "@typescript-eslint/parser"
+    versions:
+    - 4.15.0
+    - 4.15.2
+  - dependency-name: typescript
+    versions:
+    - 4.1.4
+    - 4.1.5
+  - dependency-name: ts-jest
+    versions:
+    - 26.4.4
+    - 26.5.0
+    - 26.5.1
+  - dependency-name: postcss
+    versions:
+    - 8.2.5
+  - dependency-name: "@types/react-dom"
+    versions:
+    - 17.0.0
+  - dependency-name: "@types/react"
+    versions:
+    - 17.0.0
+    - 17.0.1
+  - dependency-name: "@testing-library/react"
+    versions:
+    - 11.2.3
+    - 11.2.5
+  - dependency-name: jest
+    versions:
+    - 26.6.3
+  - dependency-name: "@babel/plugin-proposal-decorators"
+    versions:
+    - 7.12.12
+    - 7.12.13
+  - dependency-name: react-app-rewired
+    versions:
+    - 2.1.8
+  - dependency-name: axios
+    versions:
+    - 0.21.1
+  - dependency-name: cross-env
+    versions:
+    - 7.0.3
+  - dependency-name: "@babel/preset-react"
+    versions:
+    - 7.12.10

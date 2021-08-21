@@ -1,0 +1,108 @@
+{
+  "name": "react-typescript-boilerplate",
+  "version": "4.0.0",
+  "main": "index.tsx",
+  "author": "HADMARINE",
+  "license": "MIT",
+  "scripts": {
+    "dev": "cross-env craco start",
+    "build": "cross-env GENERATE_SOURCEMAP=false craco build",
+    "test": "jest --config ./jest.config.js --watch",
+    "test-auto": "jest --config ./jest.config.js --forceExit",
+    "eject": "react-scripts eject",
+    "lint": "eslint -c .eslintrc.js --ext .ts ./src",
+    "tailwind:css": "tailwind build src/styles/tailwind.src.css -c tailwind.config.js -o src/styles/tailwind.min.css"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "cross-env": "^7.0.3",
+    "dotenv": "^10.0.0",
+    "eqb-request-client": "0.7.0-rc3",
+    "immutable": "4.0.0-rc.14",
+    "mobx": "^6.3.2",
+    "mobx-react": "^7.2.0",
+    "mobx-state-tree": "^5.0.2",
+    "node-sass": "^6.0.1",
+    "quickcert": "^1.1.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-is": "^17.0.2",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^4.0.3",
+    "require-strip-json-comments": "^2.0.0",
+    "styled-components": "^5.3.0",
+    "typescript": "^4.3.5",
+    "web-vitals": "^2.1.0"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.14.5",
+    "@babel/plugin-proposal-decorators": "^7.14.5",
+    "@babel/preset-env": "^7.15.0",
+    "@babel/preset-react": "^7.14.5",
+    "@craco/craco": "^6.2.0",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.0.0",
+    "@testing-library/user-event": "^13.2.1",
+    "@types/jest": "^27.0.1",
+    "@types/node": "^16.7.1",
+    "@types/node-sass": "^4.11.2",
+    "@types/react": "^17.0.19",
+    "@types/react-dom": "^17.0.9",
+    "@types/react-router": "^5.1.16",
+    "@types/react-router-dom": "^5.1.8",
+    "@types/styled-components": "^5.1.12",
+    "@typescript-eslint/eslint-plugin": "^4.29.2",
+    "@typescript-eslint/eslint-plugin-tslint": "^4.29.2",
+    "@typescript-eslint/parser": "^4.29.2",
+    "autoprefixer": "^9.8.6",
+    "core-decorators": "^0.20.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-babel": "^5.3.1",
+    "eslint-plugin-jest": "^24.4.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "26.6.0",
+    "postcss": "^7.0.36",
+    "prettier": "^2.3.2",
+    "react-app-rewire-alias": "^1.0.3",
+    "react-test-renderer": "^17.0.2",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.7",
+    "ts-jest": "^26.0.0"
+  },
+  "babel": {
+    "presets": [
+      "react-app"
+    ],
+    "plugins": [
+      [
+        "@babel/plugin-proposal-decorators",
+        {
+          "legacy": true
+        }
+      ],
+      [
+        "@babel/plugin-proposal-class-properties",
+        {
+          "loose": true
+        }
+      ]
+    ]
+  },
+  "packageManager": "yarn@3.0.1"
+}
