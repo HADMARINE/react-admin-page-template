@@ -1,8 +1,8 @@
 import React from 'react';
 
 interface BlankPropsTypes {
-  vertical: any;
-  horizontal: any;
+  vertical?: string;
+  horizontal?: string;
 }
 
 export const Margin = (

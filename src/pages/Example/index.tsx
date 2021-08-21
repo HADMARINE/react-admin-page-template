@@ -23,7 +23,9 @@ export default class Index extends Component<Props> {
     return (
       <Wrapper>
         {this.props.ExStore.value}
-        <button onClick={() => this.props.ExStore.toggleValue()}>Hello/World</button>
+        <button onClick={() => this.props.ExStore.toggleValue()}>
+          Hello/World
+        </button>
       </Wrapper>
     );
   }
