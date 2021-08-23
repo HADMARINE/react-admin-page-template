@@ -7134,15 +7134,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express-quick-builder@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "express-quick-builder@npm:3.0.1"
+"express-quick-builder@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "express-quick-builder@npm:3.0.2"
   dependencies:
     chalk: ^4.1.1
     clear-logger: ^1.0.5
     express: ^4.17.1
     http-shutdown: ^1.2.2
-  checksum: 5ee8f84f0946f8e647a41646e657552c34aad63a6c4d4cfd653fa9550331006758f93ccc0d7056005b8e89dd78a247413dfd109e00171307ac42d38222f73e3e
+  checksum: 4660228005536787f62bfeaa6c0b4d7a83744c5c83c8ddbf0d01e9072d382c52230fc86daf747c3c9c94465dc72a7dd88724aebf26fcfbbdd77d5e5d3bfe8eee
   languageName: node
   linkType: hard
 
@@ -13723,7 +13723,7 @@ fsevents@^1.2.7:
     eslint-config-prettier: ^8.3.0
     eslint-plugin-babel: ^5.3.1
     eslint-plugin-jest: ^24.4.0
-    express-quick-builder: ^3.0.1
+    express-quick-builder: ^3.0.2
     identity-obj-proxy: ^3.0.0
     immutable: 4.0.0-rc.14
     jest: 26.6.0

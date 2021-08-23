@@ -13,6 +13,7 @@ interface FlexProps {
   horizontal?: boolean;
   vertical?: boolean;
   fit?: boolean;
+  onClick?: ReactTypes.onClick<HTMLDivElement>;
 }
 
 interface FlexSpacerProps {
@@ -54,7 +55,11 @@ export const Flex = (props: FlexProps) => {
     FlexStyle.height = '100vh';
   }
 
-  return <div style={FlexStyle}>{props.children}</div>;
+  return (
+    <div style={FlexStyle} onClick={props.onClick}>
+      {props.children}
+    </div>
+  );
 };
 
 export const FlexSpacer = (props: FlexSpacerProps) => {
