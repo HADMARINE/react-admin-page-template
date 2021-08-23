@@ -32,4 +32,9 @@ const OPTIONS: Parameters<typeof client>[1] = {
   tokenResignEndpiont: 'auth/resign',
 };
 
+export interface ApiStandardReturn<T> {
+  result: boolean;
+  data: T | null;
+}
+
 export default client(getApiUri(), OPTIONS);

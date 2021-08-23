@@ -2652,6 +2652,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-modal@npm:^3.12.1":
+  version: 3.12.1
+  resolution: "@types/react-modal@npm:3.12.1"
+  dependencies:
+    "@types/react": "*"
+  checksum: 1f81bf0c01e24ab1b5b0ee484813f907f21103693fd666cbf659fca0382b130690edf04c5c00a1fabefccc0d177c8dd24b16ef465ffbc89681b6367c01373bbd
+  languageName: node
+  linkType: hard
+
 "@types/react-router-dom@npm:^5.1.8":
   version: 5.1.8
   resolution: "@types/react-router-dom@npm:5.1.8"
@@ -7082,6 +7091,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"exenv@npm:^1.2.0":
+  version: 1.2.2
+  resolution: "exenv@npm:1.2.2"
+  checksum: a894f3b60ab8419e0b6eec99c690a009c8276b4c90655ccaf7d28faba2de3a6b93b3d92210f9dc5efd36058d44f04098f6bbccef99859151104bfd49939904dc
+  languageName: node
+  linkType: hard
+
 "exit@npm:^0.1.2":
   version: 0.1.2
   resolution: "exit@npm:0.1.2"
@@ -7115,6 +7131,18 @@ __metadata:
     jest-message-util: ^26.6.2
     jest-regex-util: ^26.0.0
   checksum: 79a9b888c5c6d37d11f2cb76def6cf1dc8ff098d38662ee20c9f2ee0da67e9a93435f2327854b2e7554732153870621843e7f83e8cefb1250447ee2bc39883a4
+  languageName: node
+  linkType: hard
+
+"express-quick-builder@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "express-quick-builder@npm:3.0.1"
+  dependencies:
+    chalk: ^4.1.1
+    clear-logger: ^1.0.5
+    express: ^4.17.1
+    http-shutdown: ^1.2.2
+  checksum: 5ee8f84f0946f8e647a41646e657552c34aad63a6c4d4cfd653fa9550331006758f93ccc0d7056005b8e89dd78a247413dfd109e00171307ac42d38222f73e3e
   languageName: node
   linkType: hard
 
@@ -8356,6 +8384,13 @@ fsevents@^1.2.7:
     follow-redirects: ^1.0.0
     requires-port: ^1.0.0
   checksum: f5bd96bf83e0b1e4226633dbb51f8b056c3e6321917df402deacec31dd7fe433914fc7a2c1831cf7ae21e69c90b3a669b8f434723e9e8b71fd68afe30737b6a5
+  languageName: node
+  linkType: hard
+
+"http-shutdown@npm:^1.2.2":
+  version: 1.2.2
+  resolution: "http-shutdown@npm:1.2.2"
+  checksum: 5dccd94f4fe4f51f9cbd7ec4586121160cd6470728e581662ea8032724440d891c4c92b8210b871ac468adadb3c99c40098ad0f752a781a550abae49dfa26206
   languageName: node
   linkType: hard
 
@@ -10835,6 +10870,16 @@ fsevents@^1.2.7:
     react-native:
       optional: true
   checksum: 595b5fcb9e9999d9b1d68200f27b0da073eddf1965df75a9cdd447e5c710b9486f684110c1b5f75830c485879203375d5fc4c1194cf219d8cdbfd0fa1d3694e0
+  languageName: node
+  linkType: hard
+
+"mobx-react-router@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "mobx-react-router@npm:4.1.0"
+  peerDependencies:
+    mobx: ^3.0.0 || ^4.0.0 || ^5.0.0
+    react-router: ^4.0.0 || ^5.0.0
+  checksum: 7fc4d227eca023ceb30fa57ba0db21440288fcdfecb08b8493a4496228585c2b56f6746ef8af65ae7c4cd05a831f9b9ec1fd78fa1c5cbddf84f220585c17deb3
   languageName: node
   linkType: hard
 
@@ -13440,10 +13485,25 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"react-lifecycles-compat@npm:^3.0.4":
+"react-lifecycles-compat@npm:^3.0.0, react-lifecycles-compat@npm:^3.0.4":
   version: 3.0.4
   resolution: "react-lifecycles-compat@npm:3.0.4"
   checksum: a904b0fc0a8eeb15a148c9feb7bc17cec7ef96e71188280061fc340043fd6d8ee3ff233381f0e8f95c1cf926210b2c4a31f38182c8f35ac55057e453d6df204f
+  languageName: node
+  linkType: hard
+
+"react-modal@npm:^3.14.3":
+  version: 3.14.3
+  resolution: "react-modal@npm:3.14.3"
+  dependencies:
+    exenv: ^1.2.0
+    prop-types: ^15.7.2
+    react-lifecycles-compat: ^3.0.0
+    warning: ^4.0.3
+  peerDependencies:
+    react: ^0.14.0 || ^15.0.0 || ^16 || ^17
+    react-dom: ^0.14.0 || ^15.0.0 || ^16 || ^17
+  checksum: 025605ad33c6eb743522d9e3f935bb7b1aef6b5b54dea3daa63c8599266c00d16993839c8d3f4bfcc959595e1391b78c0786e2579e272c165fe8057d5c1cebe4
   languageName: node
   linkType: hard
 
@@ -13646,6 +13706,7 @@ fsevents@^1.2.7:
     "@types/node-sass": ^4.11.2
     "@types/react": ^17.0.19
     "@types/react-dom": ^17.0.9
+    "@types/react-modal": ^3.12.1
     "@types/react-router": ^5.1.16
     "@types/react-router-dom": ^5.1.8
     "@types/styled-components": ^5.1.12
@@ -13662,15 +13723,18 @@ fsevents@^1.2.7:
     eslint-config-prettier: ^8.3.0
     eslint-plugin-babel: ^5.3.1
     eslint-plugin-jest: ^24.4.0
+    express-quick-builder: ^3.0.1
     identity-obj-proxy: ^3.0.0
     immutable: 4.0.0-rc.14
     jest: 26.6.0
     mobx: ^6.3.2
     mobx-react: ^7.2.0
+    mobx-react-router: ^4.1.0
     mobx-state-tree: ^5.0.2
     node-sass: ^6.0.1
     postcss: ^7.0.36
     prettier: ^2.3.2
+    prop-types: ^15.7.2
     query-string: ^7.0.1
     quickcert: ^1.1.2
     react: ^17.0.2
@@ -13678,6 +13742,7 @@ fsevents@^1.2.7:
     react-bootstrap: ^1.6.1
     react-dom: ^17.0.2
     react-is: ^17.0.2
+    react-modal: ^3.14.3
     react-router: ^5.2.0
     react-router-dom: ^5.2.0
     react-scripts: ^4.0.3

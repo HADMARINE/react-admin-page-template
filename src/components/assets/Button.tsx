@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import colorSettings from '@settings/color.json';
 
 interface Props {
   width?: string;
@@ -10,6 +11,7 @@ interface Props {
   props?: Record<string, any>;
   variant?:
     | 'primary'
+    | 'primary-inversed'
     | 'secondary'
     | 'gray'
     | 'violet'
@@ -25,7 +27,8 @@ interface Props {
 }
 
 const theme = {
-  primary: 'color: white; background-color: #f15c5c;', // TODO: change color
+  primary: `color:${colorSettings.backgroundColor} ; background-color: ${colorSettings.keyColor};`,
+  'primary-inversed': `color:${colorSettings.keyColor} ; background-color: ${colorSettings.backgroundColor};`,
   secondary: 'color: gray; background-color: white;',
   gray: 'color: white; background-color: #363636;',
   violet: 'color:white; background-color: #520092;',
@@ -35,7 +38,7 @@ const theme = {
 };
 
 export default function Button(props: Props) {
-  const Button = styled.button`
+  const ButtonGenerator = styled.button`
     background-color: transparent;
     display: flex;
     justify-content: center;
@@ -52,14 +55,15 @@ export default function Button(props: Props) {
     margin: 5px 0;
     flex: ${props.flex || ''};
     ${props.color ? `color: ${props.color}` : ``};
+    border: none;
   `;
   return (
-    <Button
+    <ButtonGenerator
       {...props.props}
       style={props.style}
       onClick={props.onClick}
       disabled={props.disabled}>
       {props.children}
-    </Button>
+    </ButtonGenerator>
   );
 }

@@ -1,19 +1,66 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text } from '@src/components/assets/Text';
-import { Flex } from '@src/components/assets/Wrapper';
+import { Flex, FlexSpacer } from '@src/components/assets/Wrapper';
 import Color from '@src/components/assets/Color';
-import styled from 'styled-components';
 import colorSettings from '@settings/color.json';
-import Input from '@components/assets/Input';
+import Input from '@src/components/assets/Input';
+import Button from '@src/components/assets/Button';
+import { Routings } from '@src/store';
+import { inject, observer } from 'mobx-react';
 
-const Login = () => (
-  <Flex vertical fit style={{ backgroundColor: colorSettings.keyColor }}>
-    <Text fontSize="50px" fontWeight={900}>
-      <Color.background>Login</Color.background>
-    </Text>
+interface Props {
+  Routings?: Routings;
+}
 
-    <Input />
-  </Flex>
-);
+const Login = (props: Props) => {
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
 
-export default Login;
+  const login = () => {
+    props.Routings?.push('/');
+    return;
+  };
+
+  return (
+    <Flex
+      vertical
+      center
+      fit
+      style={{ backgroundColor: colorSettings.keyColor }}>
+      <Text fontSize="50px" fontWeight={900}>
+        <Color.background>Admin Page</Color.background>
+      </Text>
+
+      <FlexSpacer flex={0.06} />
+
+      <Input
+        variant={'primary'}
+        width={'300px'}
+        height={'40px'}
+        type={'id'}
+        placeholder={'ID'}
+        value={id}
+        onChange={(e) => setId(e.target.value)}
+      />
+      <Input
+        variant={'primary'}
+        width={'300px'}
+        height={'40px'}
+        type={'password'}
+        placeholder={'Password'}
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <FlexSpacer flex={0.06} />
+      <Button
+        onClick={login}
+        variant={'primary-inversed'}
+        height={'60px'}
+        width={'200px'}>
+        Sign in
+      </Button>
+    </Flex>
+  );
+};
+
+export default inject('Routings')(observer(Login));
