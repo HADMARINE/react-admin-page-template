@@ -105,6 +105,8 @@ export const Text = (props: TextProps) => {
     width: ${props.width};
     height: ${props.height};
     font-family: ${props.fontFamily};
+    align-items: ${props.textAlign};
+    display: flex;
   `;
   return <_Text style={props.style}>{props.children}</_Text>;
 };

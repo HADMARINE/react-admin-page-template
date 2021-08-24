@@ -2,9 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { Text } from '@components/assets/Text';
 import { ColorGen as Color } from '@components/assets/Color';
+import colorSettings from '@settings/color.json';
 
 interface Props {
-  variant?: 'primary' | 'error';
+  variant?: 'primary' | 'plain' | 'error';
   width?: string;
   height?: string;
   fontSize?: string;
@@ -28,7 +29,11 @@ interface Props {
 }
 
 const theme: Record<string, React.CSSProperties> = {
-  primary: { color: 'black', backgroundColor: 'white' },
+  plain: { color: 'black', backgroundColor: 'white' },
+  primary: {
+    color: colorSettings.keyColor,
+    backgroundColor: colorSettings.backgroundColor,
+  },
   error: {
     color: 'black',
     backgroundColor: '#ffcabf',
@@ -45,9 +50,9 @@ export default function Input(props: Props) {
     display: 'flex',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    fontSize: props.fontSize || '16px',
+    fontSize: props.fontSize || '14px',
     fontWeight: props.fontWeight || 500,
-    padding: props.objectAlign === 'left' ? '0 20px 0 45px' : '0 20px 0 20px',
+    padding: props.objectAlign === 'left' ? '0 10px 0 25px' : '0 10px 0 10px',
     margin: 0,
     boxSizing: 'border-box',
     ...theme[props.error ? 'error' : props.variant || 'primary'],
@@ -55,9 +60,9 @@ export default function Input(props: Props) {
   };
 
   const WrapperStyle: React.CSSProperties = {
-    width: props.width,
-    height: props.height,
-    margin: '10px 0',
+    width: props.width || '100%',
+    height: props.height || '100%',
+    margin: '0',
     display: 'flex',
     flexDirection: 'row',
     flex: props.flex,
@@ -71,7 +76,7 @@ export default function Input(props: Props) {
   `;
 
   return (
-    <div style={{ flex: props.flex }}>
+    <div style={{ flex: props.flex, width: '100%', height: '100%' }}>
       <div style={WrapperStyle}>
         <input
           style={{

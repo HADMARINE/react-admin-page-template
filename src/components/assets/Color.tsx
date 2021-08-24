@@ -4,10 +4,14 @@ import colorSettings from '@settings/color.json';
 
 export const KeyColor = styled.span`
   color: ${colorSettings.keyColor};
+  width: 100%;
+  height: 100%;
 `;
 
 export const BackgroundColor = styled.span`
   color: ${colorSettings.backgroundColor};
+  width: 100%;
+  height: 100%;
 `;
 
 interface ColorProps {
