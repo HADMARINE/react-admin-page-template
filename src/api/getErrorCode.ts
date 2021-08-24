@@ -8,6 +8,5 @@ export const getErrorCode = async (props: {
   if (!data.result) {
     return { result: false, data: '' };
   }
-
   return { result: true, data: data.data };
 };
