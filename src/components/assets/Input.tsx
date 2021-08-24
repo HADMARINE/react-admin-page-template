@@ -76,7 +76,12 @@ export default function Input(props: Props) {
   `;
 
   return (
-    <div style={{ flex: props.flex, width: '100%', height: '100%' }}>
+    <div
+      style={{
+        flex: props.flex,
+        width: props.width || '100%',
+        height: props.height || '100%',
+      }}>
       <div style={WrapperStyle}>
         <input
           style={{

@@ -27,38 +27,42 @@ const Login = (props: Props) => {
       center
       fit
       style={{ backgroundColor: colorSettings.keyColor }}>
-      <Text fontSize="50px" fontWeight={900}>
-        <Color.background>Admin Page</Color.background>
-      </Text>
+      <Flex vertical center height={'40vh'}>
+        <Text fontSize="50px" fontWeight={900}>
+          <Color.background>Admin Page</Color.background>
+        </Text>
 
-      <FlexSpacer flex={0.06} />
+        <FlexSpacer flex={0.4} />
 
-      <Input
-        variant={'primary'}
-        width={'300px'}
-        height={'40px'}
-        type={'id'}
-        placeholder={'ID'}
-        value={id}
-        onChange={(e) => setId(e.target.value)}
-      />
-      <Input
-        variant={'primary'}
-        width={'300px'}
-        height={'40px'}
-        type={'password'}
-        placeholder={'Password'}
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <FlexSpacer flex={0.06} />
-      <Button
-        onClick={login}
-        variant={'primary-inversed'}
-        height={'60px'}
-        width={'200px'}>
-        Sign in
-      </Button>
+        <Input
+          variant={'primary'}
+          width={'300px'}
+          height={'40px'}
+          type={'id'}
+          placeholder={'ID'}
+          value={id}
+          onChange={(e) => setId(e.target.value)}
+        />
+        <FlexSpacer flex={0.06} />
+
+        <Input
+          variant={'primary'}
+          width={'300px'}
+          height={'40px'}
+          type={'password'}
+          placeholder={'Password'}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <FlexSpacer flex={0.3} />
+        <Button
+          onClick={login}
+          variant={'primary-inversed'}
+          height={'60px'}
+          width={'200px'}>
+          Sign in
+        </Button>
+      </Flex>
     </Flex>
   );
 };

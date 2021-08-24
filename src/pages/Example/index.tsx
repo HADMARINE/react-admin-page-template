@@ -6,6 +6,8 @@ import ReactModal from 'react-modal';
 import { ColorGen } from '@src/components/assets/Color';
 import Button from '@src/components/assets/Button';
 import StringContainer from '@src/components/dataProcessor/string';
+import AdminTable from '@src/components/dataProcessor/AdminTable';
+import { __DataTypes } from '@src/components/dataProcessor';
 
 const Wrapper = styled.div`
   display: flex;
@@ -64,7 +66,7 @@ export default class Index extends Component<Props> {
           </Button>
           <ComponentWrapper>
             <StringContainer
-              isChangeState={this.state.isStringChanging}
+              isChanging={this.state.isStringChanging}
               name={'stringValue'}
               value={this.state.stringValue}
               onChange={this.handleChange}
@@ -73,7 +75,7 @@ export default class Index extends Component<Props> {
               fontSize={'20px'}
             />
             <StringContainer
-              isChangeState={this.state.isStringChanging}
+              isChanging={this.state.isStringChanging}
               name={'stringValue'}
               value={this.state.stringValue}
               onChange={this.handleChange}
@@ -87,6 +89,22 @@ export default class Index extends Component<Props> {
             }>
             Change input state
           </Button>
+
+          <AdminTable
+            contents={{
+              str: __DataTypes.string({}),
+              str2: __DataTypes.string({}),
+            }}
+            api={async () => {
+              return {
+                result: true,
+                data: [
+                  { str: 'str', str2: 'str' },
+                  { str: 'str', str2: 'str' },
+                ],
+              };
+            }}
+          />
         </ReactModal>
       </Wrapper>
     );

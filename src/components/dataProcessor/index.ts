@@ -7,14 +7,24 @@ export type ContainerBase<T> = PreferencesContainerBase &
 export type PreferencesContainerBase = Partial<{
   flex: number;
   onClick: ReactTypes.onClick<HTMLDivElement>;
-  onChange: ReactTypes.onChange;
 }>;
 
 export type ExclusiveContainerBase<T> = {
   isChanging: boolean;
   name: string;
   value: T;
+  onChange: ReactTypes.onChange;
 };
+
+// & Partial<{}>;
+
+export type AdminTableApi<T> = (props: {
+  skip: number;
+  limit: number;
+}) => Promise<{
+  result: boolean;
+  data: T[];
+}>;
 
 // eslint-disable-next-line no-unused-vars
 function containerFactory<T>(container: (arg0: T) => JSX.Element) {
@@ -23,8 +33,7 @@ function containerFactory<T>(container: (arg0: T) => JSX.Element) {
     pref: Omit<ContainerBase<CType>, keyof ExclusiveContainerBase<CType>>,
   ) => {
     return (ctrl: ExclusiveContainerBase<CType>) => {
-      const fullProps = Object.assign(pref, ctrl);
-      return container(fullProps as any);
+      return container(Object.assign(pref, ctrl) as any);
     };
   };
 }

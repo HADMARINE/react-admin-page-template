@@ -14,6 +14,8 @@ interface FlexProps {
   vertical?: boolean;
   fit?: boolean;
   onClick?: ReactTypes.onClick<HTMLDivElement>;
+  height?: string;
+  width?: string;
 }
 
 interface FlexSpacerProps {
@@ -48,6 +50,8 @@ export const Flex = (props: FlexProps) => {
     flexDirection: flexDirection(props),
     alignItems: 'center',
     flex: props.flex,
+    height: props.height,
+    width: props.width,
     ...props.style,
   };
 

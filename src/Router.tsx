@@ -3,7 +3,7 @@ import { Router, Route, Switch } from 'react-router-dom';
 import Example from '@pages/Example';
 import PageNotFound from '@pages/PageNotFound';
 import Login from './pages/Login';
-import createBrowserHistory from 'history/createBrowserHistory';
+import { createBrowserHistory } from 'history';
 import { syncHistoryWithStore } from 'mobx-react-router';
 import store from './store';
 import Root from './pages/Root';
