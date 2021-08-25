@@ -41,6 +41,12 @@ const theme: Record<string, React.CSSProperties> = {
   },
 };
 
+const AbsoluteWrapper = styled.span`
+  position: absolute;
+  ${(props: Props) =>
+    `${props.objectAlign === 'left' ? 'padding-left' : 'padding-right'}: 10px`};
+`;
+
 export default function Input(props: Props) {
   const InputStyle: React.CSSProperties = {
     width: '100%',
@@ -70,11 +76,6 @@ export default function Input(props: Props) {
     alignItems: 'center',
   };
 
-  const AbsoluteWrapper = styled.span`
-    position: absolute;
-    ${props.objectAlign === 'left' ? 'padding-left' : 'padding-right'}: 10px;
-  `;
-
   return (
     <div
       style={{
@@ -97,7 +98,9 @@ export default function Input(props: Props) {
           {...props.props}
         />
         {props.object ? (
-          <AbsoluteWrapper>{props.object}</AbsoluteWrapper>
+          <AbsoluteWrapper objectAlign={props.objectAlign}>
+            {props.object}
+          </AbsoluteWrapper>
         ) : (
           <></>
         )}

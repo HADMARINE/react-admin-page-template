@@ -14,7 +14,7 @@ interface TextProps {
   fontWeight?: number;
   fontFamily?: string;
   lineHeight?: number;
-  textAlign?: string;
+  textAlign?: React.CSSProperties['textAlign'] | string;
   width?: string;
   height?: string;
   style?: React.CSSProperties;
@@ -96,19 +96,19 @@ export const SmallText: StyledComponentType = styled.p`
 
 export const Text = (props: TextProps) => {
   // eslint-disable-next-line no-underscore-dangle
-  const _Text = styled.div`
-    word-break: keep-all;
-    font-weight: ${props.fontWeight || 500};
-    font-size: ${props.fontSize || '14px'};
-    line-height: ${props.lineHeight || 1.8};
-    text-align: ${props.textAlign};
-    width: ${props.width};
-    height: ${props.height};
-    font-family: ${props.fontFamily};
-    align-items: ${props.textAlign};
-    display: flex;
-  `;
-  return <_Text style={props.style}>{props.children}</_Text>;
+  const _Text: React.CSSProperties = {
+    wordBreak: 'keep-all',
+    fontWeight: props.fontWeight || 500,
+    fontSize: props.fontSize || '14px',
+    lineHeight: props.lineHeight || 1.8,
+    textAlign: props.textAlign as any,
+    width: props.width,
+    height: props.height,
+    fontFamily: props.fontFamily,
+    alignItems: props.textAlign,
+    display: 'flex',
+  };
+  return <div style={{ ...props.style }}>{props.children}</div>;
 };
 
 export default { Title, SubTitle, Paragraph, Bold, HugeText, SmallText };

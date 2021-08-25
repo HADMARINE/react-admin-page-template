@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import _Modal from 'react-modal';
 const Modal = (props: { isOpen: boolean }) => {
   return (

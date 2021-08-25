@@ -5,8 +5,7 @@ import DropdownButtonImage from '@img/icon/DropdownIcon.png';
 import { Text } from '@components/assets/Text';
 import { Dropdown as BootstrapDropdown } from 'react-bootstrap';
 import Assets from '@util/Assets';
-
-// TODO : change color
+import colorSettings from '@settings/color.json';
 
 interface Props {
   choices?: string[];
@@ -84,7 +83,7 @@ const Dropdown = (props: Props) => {
           }
           style={
             itemProps.children === props.value
-              ? { color: '#f15c5c', fontWeight: 700 }
+              ? { color: colorSettings.keyColor, fontWeight: 700 }
               : undefined
           }>
           {itemProps.children}

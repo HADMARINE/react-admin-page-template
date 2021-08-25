@@ -1,4 +1,5 @@
 import React from 'react';
+import colorSettings from '@settings/color.json';
 
 interface Props {
   value?: boolean;
@@ -13,7 +14,7 @@ const Switch = (props: Props) => {
   const WrapperStyle: React.CSSProperties = {
     transition: `all ${props.duration || 0.3}s ease-in-out`,
     backgroundColor: props.value
-      ? props.themeColor || '#f15c5c' //TODO : change color
+      ? props.themeColor || colorSettings.keyColor //TODO : change color: ;
       : props.disabledColor || 'gray',
     width: '50px',
     height: '30px',

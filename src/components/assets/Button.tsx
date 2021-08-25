@@ -37,36 +37,34 @@ const theme = {
   disabled: 'background:gray; color: white; cursor: not-allowed;',
 };
 
-export default function Button(props: Props) {
-  const ButtonGenerator = styled.button`
-    background-color: transparent;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    ${props.raw
+const ButtonGenerator = styled.button`
+  ${(props: Props) => `
+   background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  ${
+    props.raw
       ? ''
       : `width: ${props.width || '400px'};
-    height: ${props.height || '70px'};
-    font-size: ${props.fontSize || '20px'};
-    font-weight: ${props.fontWeight || 500};
-    ${theme[props.disabled ? 'disabled' : props.variant || 'primary']}`};
-    border-radius: 3px;
-    padding: 0;
-    margin: 5px 0;
-    flex: ${props.flex || ''};
-    ${props.color ? `color: ${props.color}` : ``};
-    border: none;
-    :hover {
-      cursor: pointer;
-    }
-  `;
-  return (
-    <ButtonGenerator
-      {...props.props}
-      style={props.style}
-      onClick={props.onClick}
-      disabled={props.disabled}>
-      {props.children}
-    </ButtonGenerator>
-  );
+height: ${props.height || '70px'};
+font-size: ${props.fontSize || '20px'};
+font-weight: ${props.fontWeight || 500};
+${theme[props.disabled ? 'disabled' : props.variant || 'primary']}`
+  };
+  border-radius: 3px;
+  padding: 0;
+  margin: 5px 0;
+  flex: ${props.flex || ''};
+  ${props.color ? `color: ${props.color}` : ``};
+  border: none;
+  :hover {
+    cursor: pointer;
+  }
+`}
+`;
+
+export default function Button(_props: Props) {
+  const { props, ...__props } = _props;
+  return <ButtonGenerator {...__props} {...props}></ButtonGenerator>;
 }

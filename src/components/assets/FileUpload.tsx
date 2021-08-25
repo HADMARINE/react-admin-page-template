@@ -27,50 +27,50 @@ const theme: Record<string, React.CSSProperties> = {
   },
 };
 
-const FileUpload = (props: Props) => {
-  const Wrapper = styled.div`
-    margin: 10px 0 10px 0;
+const Wrapper = styled.div`
+  margin: 10px 0 10px 0;
+  display: flex;
+  height: ${(props: Props) => props.height || '60px'};
+  input[type='file'] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+  label {
     display: flex;
-    height: ${props.height || '60px'};
-    input[type='file'] {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      border: 0;
-    }
-    label {
-      display: flex;
-      color: white;
-      width: 100px;
-      height: 100%;
-      justify-content: center;
-      align-items: center;
-      background-color: #f15c5c;
-      cursor: pointer;
-      border-radius: 3px;
-      margin-left: 10px;
-    }
-    /* named upload */
-    .upload-name {
-      display: flex;
-      flex: 8;
-      height: 100%;
-      font-size: 16px;
-      background-color: white;
-      border: none;
-      border-radius: 3px;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-  `;
+    color: white;
+    width: 100px;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: #f15c5c;
+    cursor: pointer;
+    border-radius: 3px;
+    margin-left: 10px;
+  }
+  /* named upload */
+  .upload-name {
+    display: flex;
+    flex: 8;
+    height: 100%;
+    font-size: 16px;
+    background-color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+`;
 
+const FileUpload = (props: Props) => {
   return (
     <div>
-      <Wrapper>
+      <Wrapper height={props.height}>
         <input
           style={theme[props.error ? 'error' : props.variant || 'primary']}
           className="upload-name"

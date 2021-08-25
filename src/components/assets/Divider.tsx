@@ -8,11 +8,13 @@ interface Props {
   style?: React.CSSProperties;
 }
 
-export default function Divider(props: Props) {
-  const DividerGenerator = styled.div`
+const DividerGenerator = styled.div`
+  ${(props: Props) => `
     background-color: ${props.color || 'white'};
-    width: ${props.width || 0};
-    height: ${props.height || 0};
-  `;
-  return <DividerGenerator style={props.style} />;
+  width: ${props.width || 0};
+  height: ${props.height || 0};
+`}
+`;
+export default function Divider(props: Props) {
+  return <DividerGenerator {...props} />;
 }
