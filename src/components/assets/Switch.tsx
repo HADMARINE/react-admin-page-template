@@ -14,7 +14,7 @@ const Switch = (props: Props) => {
   const WrapperStyle: React.CSSProperties = {
     transition: `all ${props.duration || 0.3}s ease-in-out`,
     backgroundColor: props.value
-      ? props.themeColor || colorSettings.keyColor //TODO : change color: ;
+      ? props.themeColor || colorSettings.keyColor
       : props.disabledColor || 'gray',
     width: '50px',
     height: '30px',

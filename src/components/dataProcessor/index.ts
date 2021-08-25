@@ -1,5 +1,3 @@
-/* eslint-disable id-blacklist */
-import { number } from 'mobx-state-tree/dist/internal';
 import StringContainer from './string';
 
 export type ContainerBase<T> = PreferencesContainerBase &
@@ -48,7 +46,7 @@ function containerFactory<T>(container: (arg0: T) => JSX.Element) {
   };
 }
 
-// eslint-disable-next-line no-underscore-dangle
 export const __DataTypes = {
+  // eslint-disable-next-line id-blacklist
   string: containerFactory(StringContainer),
 };

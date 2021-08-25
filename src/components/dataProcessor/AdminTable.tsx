@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AdminTableGetApi, ContainerBase, ExclusiveContainerBase } from '.';
 import Color from '../assets/Color';
-import { Flex, FlexSpacer } from '../assets/Wrapper';
+import { Flex } from '../assets/Wrapper';
 import colorSettings from '@settings/color.json';
 import Button from '../assets/Button';
 import { Margin } from '../assets/Format';
@@ -107,7 +107,7 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
           return (
             <Flex
               horizontal
-              key={`AdminTable_${idx}`}
+              key={`AdminTable_datas_idx_${idx}`}
               style={{ border: '1px solid', marginTop: '-1px' }}>
               {Object.entries(props.contents).map(([k, v], __idx) => {
                 return (
