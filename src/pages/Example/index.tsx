@@ -97,7 +97,7 @@ export default class Index extends Component<Props> {
               name: __DataTypes.string({ title: 'Name', flex: 1 }),
               email: __DataTypes.string({ title: 'Email', flex: 2 }),
             }}
-            getApi={async (props: { skip: number; limit: number }) => {
+            getApi={async (_props: { skip: number; limit: number }) => {
               return {
                 result: true,
                 length: 20,
@@ -126,6 +126,12 @@ export default class Index extends Component<Props> {
                 ],
               };
             }}
+            patchApi={async () => ({
+              result: true,
+            })}
+            deleteApi={async () => ({
+              result: true,
+            })}
           />
         </ReactModal>
       </Wrapper>
