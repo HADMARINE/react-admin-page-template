@@ -56,6 +56,9 @@ export default function Button(props: Props) {
     flex: ${props.flex || ''};
     ${props.color ? `color: ${props.color}` : ``};
     border: none;
+    :hover {
+      cursor: pointer;
+    }
   `;
   return (
     <ButtonGenerator
