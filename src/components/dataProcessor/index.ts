@@ -7,8 +7,10 @@ export type ContainerBase<T> = PreferencesContainerBase &
 export type PreferencesContainerBase = Partial<{
   flex: number;
   onClick: ReactTypes.onClick<HTMLDivElement>;
+  title: string;
 }>;
 
+// this type must include only dom controlling vars
 export type ExclusiveContainerBase<T> = {
   isChanging: boolean;
   name: string;
@@ -32,8 +34,11 @@ function containerFactory<T>(container: (arg0: T) => JSX.Element) {
   return (
     pref: Omit<ContainerBase<CType>, keyof ExclusiveContainerBase<CType>>,
   ) => {
-    return (ctrl: ExclusiveContainerBase<CType>) => {
-      return container(Object.assign(pref, ctrl) as any);
+    return {
+      func: (ctrl: ExclusiveContainerBase<CType>) => {
+        return container(Object.assign(pref, ctrl) as any);
+      },
+      pref,
     };
   };
 }
