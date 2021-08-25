@@ -1,4 +1,5 @@
 /* eslint-disable id-blacklist */
+import { number } from 'mobx-state-tree/dist/internal';
 import StringContainer from './string';
 
 export type ContainerBase<T> = PreferencesContainerBase &
@@ -20,13 +21,17 @@ export type ExclusiveContainerBase<T> = {
 
 // & Partial<{}>;
 
-export type AdminTableApi<T> = (props: {
+export type AdminTableGetApi<T> = (props: {
   skip: number;
   limit: number;
-}) => Promise<{
-  result: boolean;
-  data: T[];
-}>;
+}) => Promise<
+  {
+    result: boolean;
+    data: T[];
+  } & Partial<{
+    length: number;
+  }>
+>;
 
 // eslint-disable-next-line no-unused-vars
 function containerFactory<T>(container: (arg0: T) => JSX.Element) {
