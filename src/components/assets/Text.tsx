@@ -96,7 +96,7 @@ export const SmallText: StyledComponentType = styled.p`
 
 export const Text = (props: TextProps) => {
   // eslint-disable-next-line no-underscore-dangle
-  const _Text: React.CSSProperties = {
+  const textStyle: React.CSSProperties = {
     wordBreak: 'keep-all',
     fontWeight: props.fontWeight || 500,
     fontSize: props.fontSize || '14px',
@@ -108,7 +108,7 @@ export const Text = (props: TextProps) => {
     alignItems: props.textAlign,
     display: 'flex',
   };
-  return <div style={{ ...props.style }}>{props.children}</div>;
+  return <div style={{ ...textStyle, ...props.style }}>{props.children}</div>;
 };
 
 export default { Title, SubTitle, Paragraph, Bold, HugeText, SmallText };
