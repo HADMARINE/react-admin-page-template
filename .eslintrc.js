@@ -105,7 +105,7 @@ module.exports = {
     'no-unused-expressions': 'warn',
     'no-unused-labels': 'warn',
     'object-shorthand': 'warn',
-    'no-unused-vars': 'warn',
+    'no-unused-vars': 'off',
     'one-var': ['error', 'never'],
     '@typescript-eslint/isolatedModules': 'off',
     radix: 'error',
