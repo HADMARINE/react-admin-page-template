@@ -100,7 +100,7 @@ module.exports = {
     'no-throw-literal': 'error',
     'no-trailing-spaces': 'warn',
     'no-undef-init': 'warn',
-    'no-underscore-dangle': 'warn',
+    'no-underscore-dangle': 'off',
     'no-unsafe-finally': 'warn',
     'no-unused-expressions': 'warn',
     'no-unused-labels': 'warn',
