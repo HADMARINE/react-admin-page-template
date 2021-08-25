@@ -1,36 +1,70 @@
 import React, { useEffect, useState } from 'react';
-import { AdminTableApi, ContainerBase, ExclusiveContainerBase } from '.';
+import { AdminTableGetApi, ContainerBase, ExclusiveContainerBase } from '.';
 import Color from '../assets/Color';
-import { Flex } from '../assets/Wrapper';
+import { Flex, FlexSpacer } from '../assets/Wrapper';
 import colorSettings from '@settings/color.json';
+import Button from '../assets/Button';
+import { Margin } from '../assets/Format';
 
 interface Props<T extends Record<string, ContainerBase<any>>> {
   contents: T;
-  api: AdminTableApi<
+  getApi: AdminTableGetApi<
     { [P in keyof T]: T[P] extends ContainerBase<infer U> ? U : any }
   >;
+  patchApi?: any;
+  deleteApi?: any;
 }
 
+const getPaginationCount = (length: number, limit: number) => {
+  return Math.floor(length / limit) + (length % limit === 0 ? 0 : 1) || 1;
+};
+
+const PaginationButton = (props: {
+  data: any;
+  limit: number;
+  pageIdx: number;
+  setPageIdx: (arg0: number) => void;
+}): JSX.Element[] => {
+  const arr = [];
+  for (let i = 0; i < getPaginationCount(props.data.length, props.limit); i++) {
+    arr.push(
+      <Button
+        width={'30px'}
+        height={'40px'}
+        style={{
+          marginLeft: '2px',
+          border: `1px solid ${colorSettings.keyColor}`,
+        }}
+        variant={props.pageIdx === i ? 'primary-inversed' : 'primary'}
+        onClick={() => props.setPageIdx(i)}>
+        {i + 1}
+      </Button>,
+    );
+  }
+
+  return arr;
+};
+
 const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
-  type ApiType = T extends AdminTableApi<infer U> ? U : any;
+  type ApiType = T extends AdminTableGetApi<infer U> ? U : any;
 
   const [data, setData] = useState<ApiType['data']>([]);
 
-  const [skip, setSkip] = useState(0);
+  const [pageIdx, setPageIdx] = useState(0);
   const [limit, setLimit] = useState(10);
 
   const [changeIndex, setChangeIndex] = useState(-1);
 
   useEffect(() => {
     async function f() {
-      setData(await props.api({ skip, limit }));
+      setData(await props.getApi({ skip: pageIdx * 10, limit }));
     }
 
     f();
     return () => {
       return;
     };
-  }, [skip, limit]);
+  }, [pageIdx, limit]);
 
   return (
     <Flex vertical>
@@ -41,7 +75,7 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
               <Flex
                 style={{
                   border: '1px solid',
-                  borderRadius: '5px',
+                  borderRadius: '10px',
                   fontSize: '24px',
                   margin: '1px',
                   backgroundColor: colorSettings.keyColor,
@@ -68,6 +102,7 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
             );
           })}
         </Flex>
+        <Margin vertical={'5px'} />
         {data.data?.map((d: any, idx: number) => {
           return (
             <Flex
@@ -102,6 +137,30 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
             </Flex>
           );
         })}
+        <Flex center>
+          <Button
+            onClick={() => {
+              if (pageIdx === 0) return;
+              setPageIdx(pageIdx - 1);
+            }}
+            width={'30px'}
+            height={'40px'}
+            style={{ marginLeft: '2px' }}>
+            {'<'}
+          </Button>
+          {PaginationButton({ data, limit, pageIdx, setPageIdx })}
+          <Button
+            onClick={() => {
+              if (pageIdx === getPaginationCount(data.length, limit) - 1)
+                return;
+              setPageIdx(pageIdx + 1);
+            }}
+            width={'30px'}
+            height={'40px'}
+            style={{ marginLeft: '2px' }}>
+            {'>'}
+          </Button>
+        </Flex>
       </Color.key>
     </Flex>
   );
