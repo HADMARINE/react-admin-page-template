@@ -36,7 +36,7 @@ module.exports = {
     eqeqeq: ['error', 'smart'],
     'guard-for-in': 'error',
     'id-blacklist': [
-      'error',
+      'warn',
       'any',
       'Number',
       'number',
