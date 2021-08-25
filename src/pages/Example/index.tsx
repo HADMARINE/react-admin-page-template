@@ -94,15 +94,35 @@ export default class Index extends Component<Props> {
 
           <AdminTable
             contents={{
-              str: __DataTypes.string({ title: 'hello world', flex: 1 }),
-              str2: __DataTypes.string({ title: 'hello world 2', flex: 2 }),
+              name: __DataTypes.string({ title: 'Name', flex: 1 }),
+              email: __DataTypes.string({ title: 'Email', flex: 2 }),
             }}
-            api={async () => {
+            getApi={async (props: { skip: number; limit: number }) => {
               return {
                 result: true,
+                length: 20,
                 data: [
-                  { str: 'str', str2: 'str' },
-                  { str: 'str', str2: 'str' },
+                  { name: 'Joe Biden', email: 'biden@whitehouse.gov' },
+                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
+                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
+                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
+                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
+                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
+                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
+                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
+                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
+                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
+                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
+                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
+                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
+                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
+                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
+                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
+                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
+                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
+                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
+                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
+                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
                 ],
               };
             }}
