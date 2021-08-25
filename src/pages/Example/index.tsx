@@ -71,6 +71,7 @@ export default class Index extends Component<Props> {
               value={this.state.stringValue}
               onChange={this.handleChange}
               flex={1}
+              title={'str1_title'}
               left
               fontSize={'20px'}
             />
@@ -80,6 +81,7 @@ export default class Index extends Component<Props> {
               value={this.state.stringValue}
               onChange={this.handleChange}
               flex={2}
+              title={'str2_title'}
               center
             />
           </ComponentWrapper>
@@ -92,8 +94,8 @@ export default class Index extends Component<Props> {
 
           <AdminTable
             contents={{
-              str: __DataTypes.string({}),
-              str2: __DataTypes.string({}),
+              str: __DataTypes.string({ title: 'hello world', flex: 1 }),
+              str2: __DataTypes.string({ title: 'hello world 2', flex: 2 }),
             }}
             api={async () => {
               return {
