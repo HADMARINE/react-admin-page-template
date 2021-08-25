@@ -10,7 +10,8 @@
       "@styles/*": ["./src/styles/*"],
       "@util/*": ["./src/util/*"],
       "@store/*": ["./src/store/*"],
-      "@settings/*": ["./src/settings/*"]
+      "@settings/*": ["./src/settings/*"],
+      "@assets/*": ["./src/assets/*"]
     }
   }
 }
