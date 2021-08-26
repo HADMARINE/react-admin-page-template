@@ -107,6 +107,7 @@ export const Text = (props: TextProps) => {
     fontFamily: props.fontFamily,
     alignItems: props.textAlign,
     display: 'flex',
+    textDecoration: 'none',
   };
   return <div style={{ ...textStyle, ...props.style }}>{props.children}</div>;
 };
