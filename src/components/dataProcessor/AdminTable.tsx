@@ -270,7 +270,7 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
               width={'30px'}
               height={'40px'}
               style={{ marginLeft: '2px' }}>
-              {pageIdx === 0 ? '·' : '<'}
+              {pageIdx === 0 ? '·' : '❮'}
             </Button>
             {PaginationButton({ data, limit, pageIdx, setPageIdx })}
             <Button
@@ -287,7 +287,7 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
               style={{ marginLeft: '2px' }}>
               {pageIdx === getPaginationCount(data?.length || 0, limit) - 1
                 ? '·'
-                : '>'}
+                : '❯'}
             </Button>
           </Flex>
         </Color.key>
