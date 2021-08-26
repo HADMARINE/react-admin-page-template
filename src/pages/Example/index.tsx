@@ -101,6 +101,7 @@ export default class Index extends Component<Props> {
               return {
                 result: true,
                 length: 20,
+                sortMethod: ['newest', 'oldest', 'name', 'email'],
                 data: [
                   {
                     _id: '1',
@@ -130,9 +131,10 @@ export default class Index extends Component<Props> {
                 ],
               };
             }}
-            patchApi={async () => ({
-              result: true,
-            })}
+            patchApi={async (v: any) => {
+              console.log('NAN NAN NUU', v);
+              return { result: true };
+            }}
             deleteApi={async () => ({
               result: true,
             })}
