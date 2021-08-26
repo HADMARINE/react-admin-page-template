@@ -102,7 +102,11 @@ export default class Index extends Component<Props> {
                 result: true,
                 length: 20,
                 data: [
-                  { name: 'Joe Biden', email: 'biden@whitehouse.gov' },
+                  {
+                    _id: '1',
+                    name: 'Joe Biden',
+                    email: 'biden@whitehouse.gov',
+                  },
                   { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
                   { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
                   { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
