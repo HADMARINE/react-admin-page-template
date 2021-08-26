@@ -28,8 +28,19 @@ export type AdminTableGetApi<T> = (props: {
     data: T[];
   } & Partial<{
     length: number;
+    sortMethod: string[];
   }>
 >;
+
+export function AdminTableGetApiDataProcessor<T extends Record<string, any>>(
+  props: T,
+): ThenArgRecursive<ReturnType<AdminTableGetApi<T>>> {
+  return {
+    result: props.result,
+    data: props.data.data,
+    length: props.data.length,
+  };
+}
 
 // eslint-disable-next-line no-unused-vars
 function containerFactory<T>(container: (arg0: T) => JSX.Element) {
