@@ -1,4 +1,5 @@
 import StringContainer from '@src/components/dataProcessor/containers/String';
+import EnumContainer from './containers/Enum';
 
 export type ContainerBase<T> = PreferencesContainerBase &
   ExclusiveContainerBase<T>;
@@ -45,9 +46,7 @@ export function AdminTableGetApiDataProcessor<T extends Record<string, any>>(
 // eslint-disable-next-line no-unused-vars
 function containerFactory<T>(container: (arg0: T) => JSX.Element) {
   type CType = T extends ContainerBase<any> ? T['value'] : any;
-  return (
-    pref: Omit<ContainerBase<CType>, keyof ExclusiveContainerBase<CType>>,
-  ) => {
+  return (pref: Omit<T, keyof ExclusiveContainerBase<CType>>) => {
     return {
       func: (ctrl: ExclusiveContainerBase<CType>) => {
         return container(Object.assign(pref, ctrl) as any);
@@ -60,4 +59,5 @@ function containerFactory<T>(container: (arg0: T) => JSX.Element) {
 export const __DataTypes = {
   // eslint-disable-next-line id-blacklist
   string: containerFactory(StringContainer),
+  enum: containerFactory(EnumContainer),
 };

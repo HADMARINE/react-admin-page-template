@@ -18,6 +18,7 @@ interface TextProps {
   width?: string;
   height?: string;
   style?: React.CSSProperties;
+  fitParent?: boolean;
 }
 // Styles + Components
 
@@ -109,6 +110,12 @@ export const Text = (props: TextProps) => {
     display: 'flex',
     textDecoration: 'none',
   };
+
+  if (props.fitParent) {
+    textStyle.width = '100%';
+    textStyle.height = '100%';
+  }
+
   return <div style={{ ...textStyle, ...props.style }}>{props.children}</div>;
 };
 

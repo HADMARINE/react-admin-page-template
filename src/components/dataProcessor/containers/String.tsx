@@ -32,7 +32,8 @@ const StringContainer = (props: Props) => {
       left={props.left}
       right={props.right}
       onClick={props.onClick}
-      style={{ width: '100%', height: '100%', margin: '2px' }}>
+      fitParent
+      style={{ margin: '2px' }}>
       {props.isChanging ? (
         <Input
           value={props.value}
@@ -46,8 +47,7 @@ const StringContainer = (props: Props) => {
       ) : (
         <Color.key>
           <Text
-            width={'100%'}
-            height={'100%'}
+            fitParent
             fontSize={props.fontSize}
             fontWeight={props.fontWeight}
             textAlign={justifyDirection(props, {

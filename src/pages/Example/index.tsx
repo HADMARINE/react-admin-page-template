@@ -96,6 +96,11 @@ export default class Index extends Component<Props> {
             contents={{
               name: __DataTypes.string({ title: 'Name', flex: 1 }),
               email: __DataTypes.string({ title: 'Email', flex: 2 }),
+              enum: __DataTypes.enum({
+                title: 'Enum',
+                flex: 1,
+                choices: ['a', 'b'],
+              }),
             }}
             getApi={async (_props: { skip: number; limit: number }) => {
               return {
@@ -107,27 +112,14 @@ export default class Index extends Component<Props> {
                     _id: '1',
                     name: 'Joe Biden',
                     email: 'biden@whitehouse.gov',
+                    enum: 'a',
                   },
-                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
-                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
-                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
-                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
-                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
-                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
-                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
-                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
-                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
-                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
-                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
-                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
-                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
-                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
-                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
-                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
-                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
-                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
-                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
-                  { name: 'Donald Trump', email: 'trumpcard@whitehouse.gov' },
+                  {
+                    _id: '1',
+                    name: 'Donald Trump',
+                    email: 'trumpcard@whitehouse.gov',
+                    enum: 'a',
+                  },
                 ],
               };
             }}

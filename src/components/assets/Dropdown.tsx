@@ -116,7 +116,8 @@ const Dropdown = (props: Props) => {
           <DropdownMenuWrapper>
             {props.choices?.map((value) => {
               return (
-                <DropdownItem key={Assets.arbitrary(10000, 99999)}>
+                <DropdownItem
+                  key={`Dropdown_${Assets.arbitrary(10000, 99999)}`}>
                   {value}
                 </DropdownItem>
               );

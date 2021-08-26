@@ -6,7 +6,6 @@ import colorSettings from '@settings/color.json';
 import Button from '../assets/Button';
 import { Margin } from '../assets/Format';
 import Img from '../assets/Img';
-
 import deleteImg from '@src/assets/delete_512.png';
 import modifyImg from '@src/assets/modify_200.png';
 import ReactModal from 'react-modal';
@@ -331,11 +330,13 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
                       value,
                       name: key,
                       isChanging: true,
-                      onChange: (e: any) =>
+                      onChange: (e: any) => {
+                        console.log(e, key);
                         setModalFormData({
                           ...modalFormData,
                           [key]: e.target.value,
-                        }),
+                        });
+                      },
                     })}
                   </Flex>
                   <FlexSpacer flex={1} />
