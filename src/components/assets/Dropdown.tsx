@@ -96,7 +96,11 @@ const Dropdown = (props: Props) => {
     <div>
       {props.title && (
         <Text
-          style={{ color: 'black', marginBottom: '5px', marginLeft: '5px' }}
+          style={{
+            color: colorSettings.keyColor,
+            marginBottom: '5px',
+            marginLeft: '5px',
+          }}
           fontWeight={700}>
           {props.title}
         </Text>
