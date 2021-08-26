@@ -109,7 +109,7 @@ module.exports = {
     'one-var': ['error', 'never'],
     '@typescript-eslint/isolatedModules': 'off',
     radix: 'error',
-    'spaced-comment': 'error',
+    'spaced-comment': 'warn',
     'use-isnan': 'error',
     'valid-typeof': 'off',
   },
