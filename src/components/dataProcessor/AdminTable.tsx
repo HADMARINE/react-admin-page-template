@@ -37,7 +37,7 @@ const PaginationButton = (props: {
 }): JSX.Element[] => {
   const arr = [];
 
-  const _limit = 9;
+  const _limit = 9; // odd number recommended
   const paginationCount = getPaginationCount(props.data?.length, props.limit);
   const limit = _limit > paginationCount ? paginationCount : _limit;
   const start =
@@ -147,6 +147,7 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
             choices={data?.sortMethod}
             value={sort}
             onChange={(value: string) => setSort(value)}
+            width={'100px'}
           />
         </Flex>
         <Margin vertical={'10px'} />
@@ -269,7 +270,7 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
               width={'30px'}
               height={'40px'}
               style={{ marginLeft: '2px' }}>
-              {pageIdx === 0 ? '#' : '<'}
+              {pageIdx === 0 ? '·' : '<'}
             </Button>
             {PaginationButton({ data, limit, pageIdx, setPageIdx })}
             <Button
@@ -285,7 +286,7 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
               height={'40px'}
               style={{ marginLeft: '2px' }}>
               {pageIdx === getPaginationCount(data?.length || 0, limit) - 1
-                ? '#'
+                ? '·'
                 : '>'}
             </Button>
           </Flex>

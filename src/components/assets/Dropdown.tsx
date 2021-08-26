@@ -13,6 +13,7 @@ interface Props {
   onChange?: (value: any) => void;
   name?: string;
   title?: React.ReactNode;
+  width?: string;
 }
 
 interface DropdownItemProps {
@@ -63,7 +64,8 @@ const Dropdown = (props: Props) => {
           if (onClick) {
             onClick(e);
           }
-        }}>
+        }}
+        style={{ width: props.width }}>
         <Text style={{ margin: '10px' }}>{props.value}</Text>
         <Img
           style={{ margin: '10px', marginLeft: 0 }}

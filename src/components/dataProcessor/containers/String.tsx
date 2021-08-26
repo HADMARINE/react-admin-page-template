@@ -1,9 +1,9 @@
 import React from 'react';
-import { ContainerBase } from '.';
-import Color from '../assets/Color';
-import Input from '../assets/Input';
-import { Text } from '../assets/Text';
-import { Flex } from '../assets/Wrapper';
+import { ContainerBase } from '@components/dataProcessor/index';
+import Color from '@components/assets/Color';
+import Input from '@components/assets/Input';
+import { Text } from '@components/assets/Text';
+import { Flex } from '@components/assets/Wrapper';
 
 interface Props extends ContainerBase<string> {
   center?: boolean;

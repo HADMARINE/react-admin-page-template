@@ -1,4 +1,4 @@
-import StringContainer from './string';
+import StringContainer from '@src/components/dataProcessor/containers/String';
 
 export type ContainerBase<T> = PreferencesContainerBase &
   ExclusiveContainerBase<T>;

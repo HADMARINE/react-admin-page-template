@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flex } from '../assets/Wrapper';
+import { Flex } from '../../assets/Wrapper';
 
 interface Props {
   flex?: number;
