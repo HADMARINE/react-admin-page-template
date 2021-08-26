@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 
 // * Types
 
@@ -16,6 +15,7 @@ interface FlexProps {
   onClick?: ReactTypes.onClick<HTMLDivElement>;
   height?: string;
   width?: string;
+  fitParent?: boolean;
 }
 
 interface FlexSpacerProps {
@@ -59,6 +59,11 @@ export const Flex = (props: FlexProps) => {
     FlexStyle.height = '100vh';
   }
 
+  if (props.fitParent) {
+    FlexStyle.width = '100%';
+    FlexStyle.height = '100%';
+  }
+
   return (
     <div style={FlexStyle} onClick={props.onClick}>
       {props.children}
@@ -67,10 +72,7 @@ export const Flex = (props: FlexProps) => {
 };
 
 export const FlexSpacer = (props: FlexSpacerProps) => {
-  const FlexSpacerGenerator = styled.div`
-    flex: ${props.flex || 1};
-  `;
-  return <FlexSpacerGenerator />;
+  return <div style={{ flex: props.flex || 1 }} />;
 };
 
 export const FlexHorizontal = (props: FlexHorizontalProps) => {
