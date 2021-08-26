@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Img from '@components/assets/Img';
-import DropdownButtonImage from '@img/icon/DropdownIcon.png';
+import DropdownButtonImage from '@assets/dropdown_512.png';
 import { Text } from '@components/assets/Text';
 import { Dropdown as BootstrapDropdown } from 'react-bootstrap';
 import Assets from '@util/Assets';
@@ -76,7 +76,7 @@ const Dropdown = (props: Props) => {
 
   const DropdownItem = (itemProps: DropdownItemProps) => {
     return (
-      <BootstrapDropdown.Item style={{ zIndex: 10000 }}>
+      <BootstrapDropdown.Item style={{ zIndex: 10000, textDecoration: 'none' }}>
         <DropdownItemWrapper
           onClick={() =>
             props.onChange !== undefined && props.onChange(itemProps.children)
