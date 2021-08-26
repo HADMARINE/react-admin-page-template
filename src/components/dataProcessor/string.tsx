@@ -41,6 +41,7 @@ const StringContainer = (props: Props) => {
           variant={'primary'}
           fontSize={props.fontSize}
           fontWeight={props.fontWeight}
+          style={{ border: '1px solid' }}
         />
       ) : (
         <Color.key>
