@@ -331,7 +331,6 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
                       name: key,
                       isChanging: true,
                       onChange: (e: any) => {
-                        console.log(e, key);
                         setModalFormData({
                           ...modalFormData,
                           [key]: e.target.value,
@@ -407,7 +406,6 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
                       value,
                       name: key,
                       isChanging: false,
-                      onChange: () => undefined,
                     })}
                   </Flex>
                   <FlexSpacer flex={1} />
