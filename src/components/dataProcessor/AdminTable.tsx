@@ -120,7 +120,7 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
     limitHistory[1] = limitHistory[0];
     limitHistory[0] = limit;
 
-    setPageIdx((pageIdx * limitHistory[1]) / limit);
+    setPageIdx(Math.floor((pageIdx * limitHistory[1]) / limit));
 
     f();
     return () => {
