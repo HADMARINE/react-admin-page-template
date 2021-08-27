@@ -8,6 +8,7 @@ import Button from '@src/components/assets/Button';
 import StringContainer from '@src/components/dataProcessor/containers/String';
 import AdminTable from '@src/components/dataProcessor/AdminTable';
 import { __DataTypes } from '@src/components/dataProcessor';
+import DateTimeContainer from '@src/components/dataProcessor/containers/DateTime';
 
 const Wrapper = styled.div`
   display: flex;
@@ -39,6 +40,7 @@ export default class Index extends Component<Props> {
     isModalOpen: true,
     isStringChanging: true,
     stringValue: 'Hello world',
+    date: new Date(),
   };
 
   handleChange = (e: ReactTypes.onChangeEvent) => {
@@ -67,8 +69,6 @@ export default class Index extends Component<Props> {
           <ComponentWrapper>
             <StringContainer
               isChanging={this.state.isStringChanging}
-              name={'stringValue'}
-              value={this.state.stringValue}
               onChange={this.handleChange}
               flex={1}
               title={'str1_title'}
@@ -77,8 +77,6 @@ export default class Index extends Component<Props> {
             />
             <StringContainer
               isChanging={this.state.isStringChanging}
-              name={'stringValue'}
-              value={this.state.stringValue}
               onChange={this.handleChange}
               flex={2}
               title={'str2_title'}
@@ -131,6 +129,8 @@ export default class Index extends Component<Props> {
               result: true,
             })}
           />
+
+          <DateTimeContainer value={this.state.date} />
         </ReactModal>
       </Wrapper>
     );

@@ -11,6 +11,7 @@ import modifyImg from '@src/assets/modify_200.png';
 import ReactModal from 'react-modal';
 import { Text } from '../assets/Text';
 import Dropdown from '../assets/Dropdown';
+import { Column, Table } from 'react-rainbow-components';
 
 interface Props<T extends Record<string, ContainerBase<any>>> {
   contents: T;
@@ -171,7 +172,7 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
 
         <Color.key>
           <Flex horizontal>
-            {Object.entries(props.contents).map(([k, v], _idx) => {
+            {/* {Object.entries(props.contents).map(([k, v], _idx) => {
               return (
                 <Flex
                   style={{
@@ -201,7 +202,25 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
                   </Flex>
                 </Flex>
               );
-            })}
+            })} */}
+            <Table keyField="_id" data={data?.data}>
+              {Object.entries(props.contents).map(([k, v]) => {
+                (
+                  v as {
+                    func: (__props: ExclusiveContainerBase<any>) => JSX.Element;
+                    pref: Omit<
+                      ContainerBase<any>,
+                      keyof ExclusiveContainerBase<any>
+                    >;
+                  }
+                ).func({
+                  isChanging: false,
+                  onChange: (e: any) => {
+                    setModalFormData({ ...modalFormData, [k]: e.target.value });
+                  },
+                });
+              })}
+            </Table>
             <Flex
               style={{
                 border: '1px solid',
@@ -245,9 +264,7 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
                           >;
                         }
                       ).func({
-                        value: d[k],
                         isChanging: false,
-                        name: k,
                         onChange: () => 0, // todo this
                       })}
                     </Flex>

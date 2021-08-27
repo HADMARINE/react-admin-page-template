@@ -1,20 +1,19 @@
 import StringContainer from '@src/components/dataProcessor/containers/String';
 import EnumContainer from './containers/Enum';
 
-export type ContainerBase<T> = PreferencesContainerBase &
-  ExclusiveContainerBase<T>;
+export type ContainerBase<T> = PreferencesContainerBase<T> &
+  ExclusiveContainerBase;
 
-export type PreferencesContainerBase = Partial<{
+export type PreferencesContainerBase<T> = Partial<{
   flex: number;
   onClick: ReactTypes.onClick<HTMLDivElement>;
   title: string;
+  value: T;
 }>;
 
 // this type must include only dom controlling vars
-export type ExclusiveContainerBase<T> = {
+export type ExclusiveContainerBase = {
   isChanging: boolean;
-  name: string;
-  value: T;
   onChange: ReactTypes.onChange;
 };
 

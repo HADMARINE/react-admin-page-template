@@ -36,9 +36,7 @@ const StringContainer = (props: Props) => {
       style={{ margin: '2px' }}>
       {props.isChanging ? (
         <Input
-          value={props.value}
           onChange={props.onChange}
-          name={props.name}
           variant={'primary'}
           fontSize={props.fontSize}
           fontWeight={props.fontWeight}
