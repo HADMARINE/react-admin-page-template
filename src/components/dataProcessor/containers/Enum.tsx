@@ -20,7 +20,7 @@ const EnumContainer = (props: Props) => {
           value={props.value}
           choices={props.choices}
           onChange={(value: any) => {
-            props.onChange({ target: { value: '!' } } as any);
+            props.onChange({ target: { value } } as any);
           }}
         />
       ) : (
