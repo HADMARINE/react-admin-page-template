@@ -3,7 +3,6 @@ import { KeyColor } from '@src/components/assets/Color';
 import Dropdown from '@src/components/assets/Dropdown';
 import { Text } from '@src/components/assets/Text';
 import { Flex } from '@src/components/assets/Wrapper';
-import Input from '@components/assets/Input';
 import { ContainerBase } from '..';
 
 interface Props extends ContainerBase<string> {
@@ -24,7 +23,6 @@ const EnumContainer = (props: Props) => {
           }}
         />
       ) : (
-        // <Input value={props.value} onChange={props.onChange} />
         <KeyColor>
           <Text
             fitParent
