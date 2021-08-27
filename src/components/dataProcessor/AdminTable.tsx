@@ -67,6 +67,9 @@ const PaginationButton = (props: {
   return arr;
 };
 
+// eslint-disable-next-line prefer-const
+let limitHistory = [0, 0];
+
 const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
   type ApiType = ThenArgRecursive<
     ReturnType<AdminTableGetApi<Record<string, any>>>
@@ -90,14 +93,14 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
     };
   }, [data]);
 
+  async function f() {
+    setData(await props.getApi({ skip: pageIdx * limit, limit }));
+  }
+
   useEffect(() => {
     // check modifyIdx and deleteIdx are -1
     if (modifyIdx * deleteIdx !== 1) {
       return;
-    }
-
-    async function f() {
-      setData(await props.getApi({ skip: pageIdx * limit, limit }));
     }
 
     f();
@@ -107,15 +110,30 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
   }, [modifyIdx, deleteIdx]);
 
   useEffect(() => {
-    async function f() {
-      setData(await props.getApi({ skip: pageIdx * limit, limit }));
-    }
+    f();
+    return () => {
+      return;
+    };
+  }, [pageIdx]);
+
+  useEffect(() => {
+    limitHistory[1] = limitHistory[0];
+    limitHistory[0] = limit;
+
+    setPageIdx((pageIdx * limitHistory[1]) / limit);
 
     f();
     return () => {
       return;
     };
-  }, [pageIdx, limit]);
+  }, [limit]);
+
+  useEffect(() => {
+    setPageIdx(0);
+    return () => {
+      return;
+    };
+  }, [sort]);
 
   return (
     <>
