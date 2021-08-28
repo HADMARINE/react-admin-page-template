@@ -11,7 +11,9 @@ import modifyImg from '@src/assets/modify_200.png';
 import ReactModal from 'react-modal';
 import { Text } from '../assets/Text';
 import Dropdown from '../assets/Dropdown';
-import { Column, Table } from 'react-rainbow-components';
+import { ButtonMenu, Column, MenuItem, Table } from 'react-rainbow-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsisV, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 
 interface Props<T extends Record<string, ContainerBase<any>>> {
   contents: T;
@@ -34,6 +36,7 @@ const PaginationButton = (props: {
   limit: number;
   pageIdx: number;
   setPageIdx: (arg0: number) => void;
+  isLoading: boolean;
 }): JSX.Element[] => {
   const arr = [];
 
@@ -48,6 +51,25 @@ const PaginationButton = (props: {
           : paginationCount - limit
         : 0
       : 0;
+
+  if (props.isLoading) {
+    for (let i = 0; i < _limit; i++) {
+      arr.push(
+        <Button
+          width={'30px'}
+          height={'40px'}
+          style={{
+            marginLeft: '2px',
+            border: `1px solid ${colorSettings.keyColor}`,
+          }}
+          variant={'primary-inversed'}
+          onClick={() => undefined}>
+          ·
+        </Button>,
+      );
+    }
+    return arr;
+  }
 
   for (let i = start; i < limit + start; i++) {
     arr.push(
@@ -68,15 +90,25 @@ const PaginationButton = (props: {
   return arr;
 };
 
-// eslint-disable-next-line prefer-const
-let limitHistory = [0, 0];
+// const AdditionalMenu = ({ value, name }) => {
+//   return (
+//     <>
+//       <MenuItem label="Delete" onClick={() => console.log(`Delete ${name}`)} />
+//       <MenuItem label="Edit" onClick={() => console.log(`Edit ${name}`)} />
+//     </>
+//   );
+// };
+
+const limitHistory = [0, 0];
 
 const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
   type ApiType = ThenArgRecursive<
     ReturnType<AdminTableGetApi<Record<string, any>>>
-  >; // T extends AdminTableGetApi<infer U> ? U : any;
+  >;
 
   const [data, setData] = useState<ApiType>();
+  const [sortMethods, setSortMethods] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [pageIdx, setPageIdx] = useState(0);
   const [limit, setLimit] = useState(10);
@@ -87,15 +119,39 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
 
   const [sort, setSort] = useState('');
 
+  const AdditionalMenu = (_props: any) => {
+    const { index } = _props;
+    return (
+      <ButtonMenu
+        id="additional-menu"
+        menuAlignment="right"
+        menuSize="x-small"
+        icon={<FontAwesomeIcon icon={faEllipsisV} />}
+        buttonVariant="base"
+        className="rainbow-m-left_xx-small">
+        <MenuItem label="Delete" onClick={() => setDeleteIdx(index)} />
+        <MenuItem label="Edit" onClick={() => setModifyIdx(index)} />
+      </ButtonMenu>
+    );
+  };
+
   useEffect(() => {
-    setSort(data?.sortMethod?.[0] || '');
+    if (sortMethods !== data?.sortMethod && data?.sortMethod) {
+      setSortMethods(data?.sortMethod);
+      if (!sort) {
+        setSort(sortMethods[0]);
+      }
+    }
     return () => {
       return;
     };
   }, [data]);
 
-  async function f() {
+  async function apiRequest() {
+    setIsLoading(true);
+    setData(undefined);
     setData(await props.getApi({ skip: pageIdx * limit, limit }));
+    setIsLoading(false);
   }
 
   useEffect(() => {
@@ -104,14 +160,14 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
       return;
     }
 
-    f();
+    apiRequest();
     return () => {
       return;
     };
   }, [modifyIdx, deleteIdx]);
 
   useEffect(() => {
-    f();
+    apiRequest();
     return () => {
       return;
     };
@@ -123,7 +179,7 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
 
     setPageIdx(Math.floor((pageIdx * limitHistory[1]) / limit));
 
-    f();
+    apiRequest();
     return () => {
       return;
     };
@@ -139,7 +195,7 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
   return (
     <>
       <Flex vertical>
-        <Flex width={'100%'} right>
+        <Flex width={'100%'} right style={{ alignItems: 'flex-end' }}>
           <Dropdown
             title={'Row per page'}
             choices={[
@@ -167,45 +223,27 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
             onChange={(value: string) => setSort(value)}
             width={'100px'}
           />
+          <Margin horizontal={'10px'} />
+          <Button
+            onClick={() => {
+              setPageIdx(0);
+              apiRequest();
+            }}
+            width={'40px'}
+            height={'40px'}
+            style={{ marginBottom: '2px' }}
+            variant={'transparent'}>
+            <FontAwesomeIcon icon={faSyncAlt} color={'black'} />
+          </Button>
+          <Margin horizontal={'10px'} />
         </Flex>
         <Margin vertical={'10px'} />
 
         <Color.key>
           <Flex horizontal>
-            {/* {Object.entries(props.contents).map(([k, v], _idx) => {
-              return (
-                <Flex
-                  style={{
-                    border: '1px solid',
-                    borderRadius: '10px',
-                    fontSize: '24px',
-                    margin: '1px',
-                    backgroundColor: colorSettings.keyColor,
-                    color: colorSettings.backgroundColor,
-                  }}
-                  key={`AdminTable_title_iter_${_idx}`}
-                  flex={v.pref.flex || 1}>
-                  <Flex style={{ marginLeft: '5px' }}>
-                    {
-                      (
-                        v as {
-                          func: (
-                            __props: ExclusiveContainerBase<any>,
-                          ) => JSX.Element;
-                          pref: Omit<
-                            ContainerBase<any>,
-                            keyof ExclusiveContainerBase<any>
-                          >;
-                        }
-                      ).pref.title
-                    }
-                  </Flex>
-                </Flex>
-              );
-            })} */}
-            <Table keyField="_id" data={data?.data}>
+            <Table keyField="_id" data={data?.data} isLoading={isLoading}>
               {Object.entries(props.contents).map(([k, v]) => {
-                (
+                return (
                   v as {
                     func: (__props: ExclusiveContainerBase<any>) => JSX.Element;
                     pref: Omit<
@@ -218,84 +256,15 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
                   onChange: (e: any) => {
                     setModalFormData({ ...modalFormData, [k]: e.target.value });
                   },
+                  key: k,
                 });
               })}
+              <Column field={'status'} component={AdditionalMenu} width={60} />
             </Table>
-            <Flex
-              style={{
-                border: '1px solid',
-                borderRadius: '10px',
-                fontSize: '24px',
-                margin: '1px',
-                backgroundColor: colorSettings.keyColor,
-                color: colorSettings.backgroundColor,
-              }}
-              width={'100px'}>
-              <Flex style={{ marginLeft: '5px' }}>Action</Flex>
-            </Flex>
           </Flex>
-          <Margin vertical={'5px'} />
-          {data?.data?.map((d: any, idx: number) => {
-            // data iteration
-            return (
-              <Flex
-                horizontal
-                key={`AdminTable_datas_idx_${idx}`}
-                style={{ border: '1px solid', marginTop: '-1px' }}>
-                {Object.entries(props.contents).map(([k, v], __idx) => {
-                  // Container iteration
-                  return (
-                    <Flex
-                      flex={v.pref.flex || 1}
-                      style={{
-                        borderRight: '1px solid',
-                        paddingRight: '-1px',
-                        margin: '2px',
-                      }}
-                      key={`AdminPage__idx_${__idx}`}>
-                      {(
-                        v as {
-                          func: (
-                            __props: ExclusiveContainerBase<any>,
-                          ) => JSX.Element;
-                          pref: Omit<
-                            ContainerBase<any>,
-                            keyof ExclusiveContainerBase<any>
-                          >;
-                        }
-                      ).func({
-                        isChanging: false,
-                        onChange: () => 0, // todo this
-                      })}
-                    </Flex>
-                  );
-                })}
-                <Flex horizontal center width={'100px'}>
-                  {props.patchApi ? (
-                    <Button
-                      width={'30px'}
-                      height={'30px'}
-                      variant={'transparent'}
-                      style={{ margin: '2px' }}
-                      onClick={() => setModifyIdx(idx)}>
-                      <Img src={modifyImg} width={'30px'} />
-                    </Button>
-                  ) : undefined}
-                  {props.deleteApi ? (
-                    <Button
-                      width={'30px'}
-                      height={'30px'}
-                      variant={'transparent'}
-                      style={{ margin: '2px' }}
-                      onClick={() => setDeleteIdx(idx)}>
-                      <Img src={deleteImg} width={'20px'} />
-                    </Button>
-                  ) : undefined}
-                </Flex>
-              </Flex>
-            );
-          })}
+          <Margin vertical={'10px'} />
           <Flex center>
+            {/* Pagination Button */}
             <Button
               onClick={() => {
                 if (pageIdx === 0) return;
@@ -306,7 +275,7 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
               style={{ marginLeft: '2px' }}>
               {pageIdx === 0 ? '·' : '❮'}
             </Button>
-            {PaginationButton({ data, limit, pageIdx, setPageIdx })}
+            {PaginationButton({ data, limit, pageIdx, setPageIdx, isLoading })}
             <Button
               onClick={() => {
                 if (
@@ -424,29 +393,24 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
               <Color.key>Deletion</Color.key>
             </Text>
             <Margin vertical={'50px'} />
-            {Object.entries(modalFormData).map(([key, value]) => {
-              if (!props.contents[key]) return;
-              return (
-                <Flex
-                  horizontal
-                  key={`AdminTable_reactmodal_iter_${key}`}
-                  width={'100%'}
-                  style={{ marginTop: '20px' }}>
-                  <FlexSpacer flex={1} />
-                  <Flex width={'100px'}>
-                    <Color.key>{props.contents[key]?.pref?.title}</Color.key>
-                  </Flex>
-                  <Flex flex={2}>
-                    {props.contents[key].func({
-                      value,
-                      name: key,
-                      isChanging: false,
-                    })}
-                  </Flex>
-                  <FlexSpacer flex={1} />
-                </Flex>
-              );
-            })}
+            {deleteIdx !== -1 && (
+              <Table
+                keyField={'_id'}
+                data={data?.data && [data?.data[deleteIdx]]}>
+                {Object.entries(modalFormData).map(([key, value]) => {
+                  if (!props.contents[key]) return;
+
+                  const column = props.contents[key].func({
+                    value,
+                    name: key,
+                    isChanging: false,
+                    key,
+                  });
+
+                  return column;
+                })}
+              </Table>
+            )}
           </Flex>
           <FlexSpacer flex={1} />
           <Button

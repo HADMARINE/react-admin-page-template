@@ -95,7 +95,7 @@ const Dropdown = (props: Props) => {
   };
 
   return (
-    <div>
+    <div style={{ zIndex: 10000 }}>
       {props.title && (
         <Text
           style={{

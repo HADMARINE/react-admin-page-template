@@ -67,7 +67,7 @@ export default class Index extends Component<Props> {
             Close
           </Button>
           <ComponentWrapper>
-            <StringContainer
+            {/* <StringContainer
               isChanging={this.state.isStringChanging}
               onChange={this.handleChange}
               flex={1}
@@ -81,7 +81,7 @@ export default class Index extends Component<Props> {
               flex={2}
               title={'str2_title'}
               center
-            />
+            /> */}
           </ComponentWrapper>
           <Button
             onClick={() =>
@@ -101,6 +101,7 @@ export default class Index extends Component<Props> {
               }),
             }}
             getApi={async (_props: { skip: number; limit: number }) => {
+              await new Promise((resolve: any) => setTimeout(resolve, 2000));
               return {
                 result: true,
                 length: 20,
@@ -113,7 +114,7 @@ export default class Index extends Component<Props> {
                     enum: 'a',
                   },
                   {
-                    _id: '1',
+                    _id: '2',
                     name: 'Donald Trump',
                     email: 'trumpcard@whitehouse.gov',
                     enum: 'a',

@@ -4,6 +4,7 @@ import Color from '@components/assets/Color';
 import Input from '@components/assets/Input';
 import { Text } from '@components/assets/Text';
 import { Flex } from '@components/assets/Wrapper';
+import { Column } from 'react-rainbow-components';
 
 interface Props extends ContainerBase<string> {
   center?: boolean;
@@ -24,7 +25,7 @@ const justifyDirection = (
 };
 
 const StringContainer = (props: Props) => {
-  return (
+  return props.isChanging ? (
     <Flex
       flex={props.flex}
       horizontal
@@ -34,30 +35,17 @@ const StringContainer = (props: Props) => {
       onClick={props.onClick}
       fitParent
       style={{ margin: '2px' }}>
-      {props.isChanging ? (
-        <Input
-          onChange={props.onChange}
-          variant={'primary'}
-          fontSize={props.fontSize}
-          fontWeight={props.fontWeight}
-          style={{ border: '1px solid' }}
-        />
-      ) : (
-        <Color.key>
-          <Text
-            fitParent
-            fontSize={props.fontSize}
-            fontWeight={props.fontWeight}
-            textAlign={justifyDirection(props, {
-              center: 'center',
-              left: 'left',
-              right: 'right',
-            })}>
-            {props.value}
-          </Text>
-        </Color.key>
-      )}
+      <Input
+        onChange={props.onChange}
+        value={props.value}
+        variant={'primary'}
+        fontSize={props.fontSize}
+        fontWeight={props.fontWeight}
+        style={{ border: '1px solid' }}
+      />
     </Flex>
+  ) : (
+    <Column header={props.title} field={props.key} />
   );
 };
 
