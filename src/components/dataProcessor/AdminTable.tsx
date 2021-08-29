@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { AdminTableGetApi, ContainerBase, ExclusiveContainerBase } from '.';
 import Color, { KeyColor } from '../assets/Color';
 import { Flex, FlexSpacer } from '../assets/Wrapper';
@@ -45,67 +45,8 @@ interface Props<T extends Record<string, ContainerBase<any>>> {
 }
 
 const getPaginationCount = (length: number, limit: number) => {
-  return Math.ceil(length / limit); // Math.floor(length / limit) + (length % limit === 0 ? 0 : 1) || 1;
+  return Math.ceil(length / limit);
 };
-
-// const PaginationButton = (props: {
-//   data: any;
-//   limit: number;
-//   pageIdx: number;
-//   setPageIdx: (arg0: number) => void;
-//   isLoading: boolean;
-// }): JSX.Element[] => {
-//   const arr = [];
-
-//   const _limit = 9; // odd number recommended
-//   const paginationCount = getPaginationCount(props.data?.length, props.limit);
-//   const limit = _limit > paginationCount ? paginationCount : _limit;
-//   const start =
-//     paginationCount > limit
-//       ? limit - props.pageIdx - 1 < Math.floor(limit / 2)
-//         ? props.pageIdx - Math.floor(limit / 2) + limit <= paginationCount
-//           ? props.pageIdx - Math.floor(limit / 2)
-//           : paginationCount - limit
-//         : 0
-//       : 0;
-
-//   if (props.isLoading) {
-//     for (let i = 0; i < _limit; i++) {
-//       arr.push(
-//         <Button
-//           width={'30px'}
-//           height={'40px'}
-//           style={{
-//             marginLeft: '2px',
-//             border: `1px solid ${colorSettings.keyColor}`,
-//           }}
-//           variant={'primary-inversed'}
-//           onClick={() => undefined}>
-//           ·
-//         </Button>,
-//       );
-//     }
-//     return arr;
-//   }
-
-//   for (let i = start; i < limit + start; i++) {
-//     arr.push(
-//       <Button
-//         width={'30px'}
-//         height={'40px'}
-//         style={{
-//           marginLeft: '2px',
-//           border: `1px solid ${colorSettings.keyColor}`,
-//         }}
-//         variant={props.pageIdx === i ? 'primary-inversed' : 'primary'}
-//         onClick={() => props.setPageIdx(i)}>
-//         {i + 1}
-//       </Button>,
-//     );
-//   }
-
-//   return arr;
-// };
 
 const limitHistory = [0, 0];
 
@@ -184,7 +125,7 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
     setIsLoading(false);
   };
 
-  const apiRequestDebounce = _.debounce(apiRequest, 500);
+  const apiRequestDebounce = useCallback(_.debounce(apiRequest, 500), []);
 
   useEffect(() => {
     // check modifyIdx and deleteIdx are -1
