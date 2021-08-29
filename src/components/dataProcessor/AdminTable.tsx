@@ -416,7 +416,7 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
                   <Flex width={'100px'}>
                     <Color.key>{props.contents[key]?.pref?.title}</Color.key>
                   </Flex>
-                  <Flex flex={2}>
+                  <Flex flex={20}>
                     {props.contents[key].func({
                       value,
                       name: key,

@@ -1,8 +1,7 @@
 import React from 'react';
-import Dropdown from '@src/components/assets/Dropdown';
 import { Flex } from '@src/components/assets/Wrapper';
 import { ContainerBase } from '..';
-import { Badge, Column } from 'react-rainbow-components';
+import { Badge, Column, Option, Picklist } from 'react-rainbow-components';
 import colorSettings from '@settings/color.json';
 
 interface Props extends ContainerBase<string> {
@@ -18,14 +17,27 @@ const StatusBadge = ({ value }: any) => (
 
 const EnumContainer = (props: Props) => {
   return props.isChanging ? (
-    <Flex horizontal>
-      <Dropdown
-        value={props.value}
-        choices={props.choices}
-        onChange={(value: any) => {
-          props.onChange({ target: { value } } as any);
-        }}
-      />
+    <Flex horizontal flex={1}>
+      <Picklist
+        style={{ flex: 1 }}
+        value={
+          props.value &&
+          ({
+            name: props.value,
+            label: `${props.value[0].toUpperCase()}${props.value.slice(1)}`,
+          } as any)
+        }
+        onChange={(_value) => {
+          props.onChange({ target: { value: _value.label } } as any);
+        }}>
+        {props.choices.map((v) => (
+          <Option
+            key={`Picklist_item_${v}`}
+            label={`${v[0].toUpperCase()}${v.slice(1)}`}
+            name={v}
+          />
+        ))}
+      </Picklist>
     </Flex>
   ) : (
     <Column

@@ -1,10 +1,7 @@
 import React from 'react';
 import { ContainerBase } from '@components/dataProcessor/index';
-import Color from '@components/assets/Color';
-import Input from '@components/assets/Input';
-import { Text } from '@components/assets/Text';
 import { Flex } from '@components/assets/Wrapper';
-import { Column } from 'react-rainbow-components';
+import { Column, Input } from 'react-rainbow-components';
 
 interface Props extends ContainerBase<string> {
   center?: boolean;
@@ -26,21 +23,12 @@ const justifyDirection = (
 
 const StringContainer = (props: Props) => {
   return props.isChanging ? (
-    <Flex
-      horizontal
-      center={props.center}
-      left={props.left}
-      right={props.right}
-      onClick={props.onClick}
-      fitParent
-      style={{ margin: '2px' }}>
+    <Flex width={'70%'} horizontal flex={1}>
       <Input
         onChange={props.onChange}
         value={props.value}
-        variant={'primary'}
-        fontSize={props.fontSize}
-        fontWeight={props.fontWeight}
-        style={{ border: '1px solid' }}
+        variant={'default'}
+        style={{ flex: 1 }}
       />
     </Flex>
   ) : (
