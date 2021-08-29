@@ -144,7 +144,7 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
     return () => {
       return;
     };
-  }, [pageIdx, sort?.target, sort?.direction]);
+  }, [pageIdx, sort?.target, sort?.direction, isQueryTabOpen]);
 
   useEffect(() => {
     apiRequestDebounce();
