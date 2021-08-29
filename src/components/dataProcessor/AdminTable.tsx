@@ -3,15 +3,14 @@ import { AdminTableGetApi, ContainerBase, ExclusiveContainerBase } from '.';
 import Color, { KeyColor } from '../assets/Color';
 import { Flex, FlexSpacer } from '../assets/Wrapper';
 import colorSettings from '@settings/color.json';
-import Button from '../assets/Button';
 import { Margin } from '../assets/Format';
 import Img from '../assets/Img';
 import deleteImg from '@src/assets/delete_512.png';
 import modifyImg from '@src/assets/modify_200.png';
 import ReactModal from 'react-modal';
 import { Text } from '../assets/Text';
-import Dropdown from '../assets/Dropdown';
 import {
+  Button,
   ButtonMenu,
   Column,
   Input,
@@ -26,7 +25,11 @@ import {
   faEllipsisV,
   faSyncAlt,
   faSearch,
+  faPlus,
+  faTimes,
+  faSearchMinus,
 } from '@fortawesome/free-solid-svg-icons';
+import _ from 'lodash';
 
 interface Props<T extends Record<string, ContainerBase<any>>> {
   contents: T;
@@ -45,64 +48,64 @@ const getPaginationCount = (length: number, limit: number) => {
   return Math.ceil(length / limit); // Math.floor(length / limit) + (length % limit === 0 ? 0 : 1) || 1;
 };
 
-const PaginationButton = (props: {
-  data: any;
-  limit: number;
-  pageIdx: number;
-  setPageIdx: (arg0: number) => void;
-  isLoading: boolean;
-}): JSX.Element[] => {
-  const arr = [];
+// const PaginationButton = (props: {
+//   data: any;
+//   limit: number;
+//   pageIdx: number;
+//   setPageIdx: (arg0: number) => void;
+//   isLoading: boolean;
+// }): JSX.Element[] => {
+//   const arr = [];
 
-  const _limit = 9; // odd number recommended
-  const paginationCount = getPaginationCount(props.data?.length, props.limit);
-  const limit = _limit > paginationCount ? paginationCount : _limit;
-  const start =
-    paginationCount > limit
-      ? limit - props.pageIdx - 1 < Math.floor(limit / 2)
-        ? props.pageIdx - Math.floor(limit / 2) + limit <= paginationCount
-          ? props.pageIdx - Math.floor(limit / 2)
-          : paginationCount - limit
-        : 0
-      : 0;
+//   const _limit = 9; // odd number recommended
+//   const paginationCount = getPaginationCount(props.data?.length, props.limit);
+//   const limit = _limit > paginationCount ? paginationCount : _limit;
+//   const start =
+//     paginationCount > limit
+//       ? limit - props.pageIdx - 1 < Math.floor(limit / 2)
+//         ? props.pageIdx - Math.floor(limit / 2) + limit <= paginationCount
+//           ? props.pageIdx - Math.floor(limit / 2)
+//           : paginationCount - limit
+//         : 0
+//       : 0;
 
-  if (props.isLoading) {
-    for (let i = 0; i < _limit; i++) {
-      arr.push(
-        <Button
-          width={'30px'}
-          height={'40px'}
-          style={{
-            marginLeft: '2px',
-            border: `1px solid ${colorSettings.keyColor}`,
-          }}
-          variant={'primary-inversed'}
-          onClick={() => undefined}>
-          ·
-        </Button>,
-      );
-    }
-    return arr;
-  }
+//   if (props.isLoading) {
+//     for (let i = 0; i < _limit; i++) {
+//       arr.push(
+//         <Button
+//           width={'30px'}
+//           height={'40px'}
+//           style={{
+//             marginLeft: '2px',
+//             border: `1px solid ${colorSettings.keyColor}`,
+//           }}
+//           variant={'primary-inversed'}
+//           onClick={() => undefined}>
+//           ·
+//         </Button>,
+//       );
+//     }
+//     return arr;
+//   }
 
-  for (let i = start; i < limit + start; i++) {
-    arr.push(
-      <Button
-        width={'30px'}
-        height={'40px'}
-        style={{
-          marginLeft: '2px',
-          border: `1px solid ${colorSettings.keyColor}`,
-        }}
-        variant={props.pageIdx === i ? 'primary-inversed' : 'primary'}
-        onClick={() => props.setPageIdx(i)}>
-        {i + 1}
-      </Button>,
-    );
-  }
+//   for (let i = start; i < limit + start; i++) {
+//     arr.push(
+//       <Button
+//         width={'30px'}
+//         height={'40px'}
+//         style={{
+//           marginLeft: '2px',
+//           border: `1px solid ${colorSettings.keyColor}`,
+//         }}
+//         variant={props.pageIdx === i ? 'primary-inversed' : 'primary'}
+//         onClick={() => props.setPageIdx(i)}>
+//         {i + 1}
+//       </Button>,
+//     );
+//   }
 
-  return arr;
-};
+//   return arr;
+// };
 
 const limitHistory = [0, 0];
 
@@ -126,7 +129,7 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
     { target: string; direction: 'asc' | 'desc' } | undefined
   >(undefined);
   const [query, setQuery] = useState<Record<string, string | undefined>>({
-    name: 'kbo',
+    name: undefined,
   });
 
   const getVacantKey = (
@@ -162,7 +165,18 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
   async function apiRequest() {
     setIsLoading(true);
     setData(undefined);
-    setData(await props.getApi({ skip: pageIdx * limit, limit, order: sort }));
+    const getApiProps = { skip: pageIdx * limit, limit, order: sort };
+    if (isQueryTabOpen) {
+      const finalQuery: Record<string, any> = {};
+      for (const __ of Object.entries(query)) {
+        const [__k, __v] = __;
+        if (__v) {
+          finalQuery[__k] = __v;
+        }
+      }
+      getApiProps.query = finalQuery;
+    }
+    setData(await props.getApi(getApiProps));
     setIsLoading(false);
   }
 
@@ -264,12 +278,13 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
             </Picklist>
             <Margin horizontal={'20px'} />
             <Button
-              variant={'transparent'}
-              style={{ marginBottom: '2px' }}
-              width={'40px'}
-              height={'40px'}
-              onClick={() => setIsQueryTabOpen(true)}>
-              <FontAwesomeIcon icon={faSearch} color={colorSettings.keyColor} />
+              variant={'base'}
+              style={{ marginBottom: '2px', width: '40px', height: '40px' }}
+              onClick={() => setIsQueryTabOpen(!isQueryTabOpen)}>
+              <FontAwesomeIcon
+                icon={!isQueryTabOpen ? faSearch : faSearchMinus}
+                color={colorSettings.keyColor}
+              />
             </Button>
             <Margin horizontal={'20px'} />
             <Button
@@ -277,10 +292,8 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
                 setPageIdx(0);
                 apiRequest();
               }}
-              width={'40px'}
-              height={'40px'}
-              style={{ marginBottom: '2px' }}
-              variant={'transparent'}>
+              style={{ marginBottom: '2px', width: '40px', height: '40px' }}
+              variant={'base'}>
               <FontAwesomeIcon
                 icon={faSyncAlt}
                 color={colorSettings.keyColor}
@@ -290,47 +303,95 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
           </Flex>
         </Flex>
         <Margin vertical={'10px'} />
-        <Flex width={'100%'} vertical>
-          {Object.entries(query).map(([_k, _v]) => (
-            <Flex width={'100%'} horizontal key={`AdminTable_search_${_k}`}>
-              <Picklist
-                onChange={(value) =>
-                  setQuery({ ...query, [_k]: value.name as string | undefined })
-                }
-                value={{
-                  name: _k,
-                  label: `${_k[0].toUpperCase()}${_k.slice(1)}`,
+        {isQueryTabOpen && (
+          <Flex
+            width={'100%'}
+            style={{
+              border: '1px solid gray',
+              borderRadius: '5px',
+              padding: '20px 5px 20px 5px',
+            }}
+            vertical>
+            <Flex width={'100%'} left>
+              <KeyColor
+                style={{
+                  fontSize: '20px',
+                  marginLeft: '10px',
+                  fontWeight: 500,
                 }}>
-                {Object.keys(props.contents).map((v) => {
-                  if (Object.keys(query).indexOf(v) !== -1) return;
-                  return (
-                    <Option
-                      key={`PickListOption_search_${v}`}
-                      name={v}
-                      label={`${[v[0].toUpperCase()]}${v.slice(1)}`}
+                Precise Search
+              </KeyColor>
+            </Flex>
+            <Margin vertical={'20px'} />
+            {Object.entries(query).map(([_k, _v]) => (
+              <Flex width={'100%'} horizontal key={`AdminTable_search_${_k}`}>
+                <Picklist
+                  onChange={(value) => {
+                    setQuery({
+                      ..._.omit(query, [_k]),
+                      [value.name as string]: undefined,
+                    });
+                  }}
+                  style={{ flex: 1, margin: '10px' }}
+                  value={{
+                    name: _k,
+                    label: `${_k[0].toUpperCase()}${_k.slice(1)}`,
+                  }}>
+                  {Object.keys(props.contents).map((v) => {
+                    if (Object.keys(query).indexOf(v) !== -1) return;
+                    return (
+                      <Option
+                        key={`PickListOption_search_${v}`}
+                        name={v}
+                        label={`${[v[0].toUpperCase()]}${v.slice(1)}`}
+                      />
+                    );
+                  })}
+                </Picklist>
+                <Input
+                  style={{ flex: 2 }}
+                  onChange={(e) => {
+                    setQuery({ ...query, [_k]: e.target.value });
+                  }}
+                  value={query[_k]}
+                />
+                <Button
+                  variant={'neutral'}
+                  style={{ width: '40px', height: '40px', margin: '10px' }}
+                  onClick={() => {
+                    setQuery({ ..._.omit(query, [_k]) });
+                  }}>
+                  <FontAwesomeIcon
+                    icon={faTimes}
+                    color={colorSettings.keyColor}
+                  />
+                </Button>
+              </Flex>
+            ))}
+            {vacantKey && (
+              <Flex width={'100%'} horizontal center>
+                {/* <FlexSpacer flex={1} /> */}
+                <Button
+                  variant={'border'}
+                  onClick={() => {
+                    setQuery({
+                      ...query,
+                      [vacantKey]: undefined,
+                    });
+                    setVacantKey(getVacantKey(query, props.contents));
+                  }}>
+                  <KeyColor>
+                    <FontAwesomeIcon
+                      icon={faPlus}
+                      color={colorSettings.keyColor}
                     />
-                  );
-                })}
-              </Picklist>
-              <Input />
-            </Flex>
-          ))}
-          {vacantKey && (
-            <Flex width={'100%'} horizontal center>
-              <Button
-                variant={'transparent'}
-                onClick={() => {
-                  setQuery({
-                    ...query,
-                    [vacantKey]: undefined,
-                  });
-                  setVacantKey(getVacantKey(query, props.contents));
-                }}>
-                <KeyColor>+</KeyColor>
-              </Button>
-            </Flex>
-          )}
-        </Flex>
+                  </KeyColor>
+                </Button>
+                {/* <FlexSpacer flex={3.5} /> */}
+              </Flex>
+            )}
+          </Flex>
+        )}
         <Margin vertical={'10px'} />
         <Color.key>
           <Flex horizontal>
