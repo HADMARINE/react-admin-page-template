@@ -4,9 +4,6 @@ import Color, { KeyColor } from '../assets/Color';
 import { Flex, FlexSpacer } from '../assets/Wrapper';
 import colorSettings from '@settings/color.json';
 import { Margin } from '../assets/Format';
-import Img from '../assets/Img';
-import deleteImg from '@src/assets/delete_512.png';
-import modifyImg from '@src/assets/modify_200.png';
 import ReactModal from 'react-modal';
 import { Text } from '../assets/Text';
 import {
@@ -182,8 +179,8 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
         icon={<FontAwesomeIcon icon={faEllipsisV} />}
         buttonVariant="base"
         className="rainbow-m-left_xx-small">
-        <MenuItem label="Delete" onClick={() => setDeleteIdx(index)} />
         <MenuItem label="Edit" onClick={() => setModifyIdx(index)} />
+        <MenuItem label="Delete" onClick={() => setDeleteIdx(index)} />
       </ButtonMenu>
     );
   };
@@ -439,6 +436,7 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
           </Flex>
           <FlexSpacer flex={1} />
           <Button
+            variant={'border'}
             onClick={() => {
               const dat: Record<string, any> = {};
 
@@ -504,6 +502,7 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
           </Flex>
           <FlexSpacer flex={1} />
           <Button
+            variant={'border'}
             onClick={() => {
               const dat: Record<string, any> = {};
 
