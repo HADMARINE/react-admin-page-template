@@ -5,9 +5,9 @@ export type ContainerBase<T> = PreferencesContainerBase &
   ExclusiveContainerBase<T>;
 
 export type PreferencesContainerBase = Partial<{
-  flex: number;
   onClick: ReactTypes.onClick<HTMLDivElement>;
   title: string;
+  sortable: boolean;
 }>;
 
 // this type must include only controlling vars
@@ -23,13 +23,13 @@ export type ExclusiveContainerBase<T> = {
 export type AdminTableGetApi<T> = (props: {
   skip: number;
   limit: number;
+  order?: { target: string; direction: 'asc' | 'desc' };
 }) => Promise<
   {
     result: boolean;
     data: T[];
   } & Partial<{
     length: number;
-    sortMethod: string[];
   }>
 >;
 

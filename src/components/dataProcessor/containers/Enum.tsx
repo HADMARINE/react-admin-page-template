@@ -18,7 +18,7 @@ const StatusBadge = ({ value }: any) => (
 
 const EnumContainer = (props: Props) => {
   return props.isChanging ? (
-    <Flex flex={props.flex} horizontal>
+    <Flex horizontal>
       <Dropdown
         value={props.value}
         choices={props.choices}
@@ -28,7 +28,12 @@ const EnumContainer = (props: Props) => {
       />
     </Flex>
   ) : (
-    <Column header={props.title} field={props.key} component={StatusBadge} />
+    <Column
+      header={props.title}
+      field={props.key}
+      component={StatusBadge}
+      sortable={props.sortable || true}
+    />
   );
 };
 

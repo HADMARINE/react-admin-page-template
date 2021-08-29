@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AdminTableGetApi, ContainerBase, ExclusiveContainerBase } from '.';
-import Color from '../assets/Color';
+import Color, { KeyColor } from '../assets/Color';
 import { Flex, FlexSpacer } from '../assets/Wrapper';
 import colorSettings from '@settings/color.json';
 import Button from '../assets/Button';
@@ -11,9 +11,22 @@ import modifyImg from '@src/assets/modify_200.png';
 import ReactModal from 'react-modal';
 import { Text } from '../assets/Text';
 import Dropdown from '../assets/Dropdown';
-import { ButtonMenu, Column, MenuItem, Table } from 'react-rainbow-components';
+import {
+  ButtonMenu,
+  Column,
+  Input,
+  MenuItem,
+  Option,
+  Pagination,
+  Picklist,
+  Table,
+} from 'react-rainbow-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisV, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
+import {
+  faEllipsisV,
+  faSyncAlt,
+  faSearch,
+} from '@fortawesome/free-solid-svg-icons';
 
 interface Props<T extends Record<string, ContainerBase<any>>> {
   contents: T;
@@ -25,10 +38,11 @@ interface Props<T extends Record<string, ContainerBase<any>>> {
     docId: string;
   }) => Promise<{ result: boolean }>;
   deleteApi?: (data: { docId: string }) => Promise<{ result: boolean }>;
+  title?: string;
 }
 
 const getPaginationCount = (length: number, limit: number) => {
-  return Math.floor(length / limit) + (length % limit === 0 ? 0 : 1) || 1;
+  return Math.ceil(length / limit); // Math.floor(length / limit) + (length % limit === 0 ? 0 : 1) || 1;
 };
 
 const PaginationButton = (props: {
@@ -90,15 +104,6 @@ const PaginationButton = (props: {
   return arr;
 };
 
-// const AdditionalMenu = ({ value, name }) => {
-//   return (
-//     <>
-//       <MenuItem label="Delete" onClick={() => console.log(`Delete ${name}`)} />
-//       <MenuItem label="Edit" onClick={() => console.log(`Edit ${name}`)} />
-//     </>
-//   );
-// };
-
 const limitHistory = [0, 0];
 
 const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
@@ -107,8 +112,8 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
   >;
 
   const [data, setData] = useState<ApiType>();
-  const [sortMethods, setSortMethods] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isQueryTabOpen, setIsQueryTabOpen] = useState(false);
 
   const [pageIdx, setPageIdx] = useState(0);
   const [limit, setLimit] = useState(10);
@@ -117,31 +122,38 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
   const [deleteIdx, setDeleteIdx] = useState(-1);
   const [modalFormData, setModalFormData] = useState<Record<string, any>>({});
 
-  const [sort, setSort] = useState('');
+  const [sort, setSort] = useState<
+    { target: string; direction: 'asc' | 'desc' } | undefined
+  >(undefined);
+  const [query, setQuery] = useState<Record<string, string | undefined>>({
+    name: 'kbo',
+  });
 
-  const AdditionalMenu = (_props: any) => {
-    const { index } = _props;
-    return (
-      <ButtonMenu
-        id="additional-menu"
-        menuAlignment="right"
-        menuSize="x-small"
-        icon={<FontAwesomeIcon icon={faEllipsisV} />}
-        buttonVariant="base"
-        className="rainbow-m-left_xx-small">
-        <MenuItem label="Delete" onClick={() => setDeleteIdx(index)} />
-        <MenuItem label="Edit" onClick={() => setModifyIdx(index)} />
-      </ButtonMenu>
-    );
-  };
-
-  useEffect(() => {
-    if (sortMethods !== data?.sortMethod && data?.sortMethod) {
-      setSortMethods(data?.sortMethod);
-      if (!sort) {
-        setSort(sortMethods[0]);
+  const getVacantKey = (
+    _query: Record<string, any>,
+    contents: Record<string, any>,
+  ): string | null => {
+    const queryKeys = Object.keys(_query);
+    for (const key of Object.keys(contents)) {
+      if (queryKeys.indexOf(key) === -1) {
+        return key as string;
       }
     }
+    return null;
+  };
+
+  const [vacantKey, setVacantKey] = useState(
+    getVacantKey(query, props.contents),
+  );
+
+  useEffect(() => {
+    setVacantKey(getVacantKey(query, props.contents));
+    return () => {
+      return;
+    };
+  }, [query]);
+
+  useEffect(() => {
     return () => {
       return;
     };
@@ -150,7 +162,7 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
   async function apiRequest() {
     setIsLoading(true);
     setData(undefined);
-    setData(await props.getApi({ skip: pageIdx * limit, limit }));
+    setData(await props.getApi({ skip: pageIdx * limit, limit, order: sort }));
     setIsLoading(false);
   }
 
@@ -171,7 +183,7 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
     return () => {
       return;
     };
-  }, [pageIdx]);
+  }, [pageIdx, sort?.target, sort?.direction]);
 
   useEffect(() => {
     limitHistory[1] = limitHistory[0];
@@ -192,56 +204,143 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
     };
   }, [sort]);
 
+  const AdditionalMenu = (_props: any) => {
+    const { index } = _props;
+    return (
+      <ButtonMenu
+        id="additional-menu"
+        menuAlignment="right"
+        menuSize="x-small"
+        icon={<FontAwesomeIcon icon={faEllipsisV} />}
+        buttonVariant="base"
+        className="rainbow-m-left_xx-small">
+        <MenuItem label="Delete" onClick={() => setDeleteIdx(index)} />
+        <MenuItem label="Edit" onClick={() => setModifyIdx(index)} />
+      </ButtonMenu>
+    );
+  };
+
+  const handleSort = (e: any, field: string, direction: string) => {
+    setSort({ target: field, direction: direction as 'asc' | 'desc' });
+  };
+
   return (
     <>
       <Flex vertical>
-        <Flex width={'100%'} right style={{ alignItems: 'flex-end' }}>
-          <Dropdown
-            title={'Row per page'}
-            choices={[
-              '1',
-              '5',
-              '10',
-              '20',
-              '30',
-              '40',
-              '50',
-              '60',
-              '70',
-              '80',
-              '90',
-              '100',
-            ]}
-            onChange={(value: string) => setLimit(parseInt(value, 10))}
-            value={limit.toString()}
-          />
-          <Margin horizontal={'20px'} />
-          <Dropdown
-            title={'Sort'}
-            choices={data?.sortMethod}
-            value={sort}
-            onChange={(value: string) => setSort(value)}
-            width={'100px'}
-          />
-          <Margin horizontal={'10px'} />
-          <Button
-            onClick={() => {
-              setPageIdx(0);
-              apiRequest();
-            }}
-            width={'40px'}
-            height={'40px'}
-            style={{ marginBottom: '2px' }}
-            variant={'transparent'}>
-            <FontAwesomeIcon icon={faSyncAlt} color={'black'} />
-          </Button>
-          <Margin horizontal={'10px'} />
+        <Flex horizontal width={'100%'}>
+          <Flex flex={1} left>
+            <KeyColor>
+              <Text fontSize={'24px'} fontWeight={900}>
+                {props.title}
+              </Text>
+            </KeyColor>
+          </Flex>
+          <Flex right style={{ alignItems: 'flex-end' }}>
+            <Picklist
+              onChange={(value) =>
+                setLimit(
+                  parseInt((value?.name as string | undefined) || '10', 10),
+                )
+              }
+              style={{ width: '100px' }}
+              value={{ name: limit.toString(), label: limit.toString() }}
+              label={'Row per page'}>
+              {[
+                '1',
+                '5',
+                '10',
+                '20',
+                '30',
+                '40',
+                '50',
+                '60',
+                '70',
+                '80',
+                '90',
+                '100',
+              ].map((v) => (
+                <Option key={`PickListOption_${v}`} name={v} label={v} />
+              ))}
+            </Picklist>
+            <Margin horizontal={'20px'} />
+            <Button
+              variant={'transparent'}
+              style={{ marginBottom: '2px' }}
+              width={'40px'}
+              height={'40px'}
+              onClick={() => setIsQueryTabOpen(true)}>
+              <FontAwesomeIcon icon={faSearch} color={colorSettings.keyColor} />
+            </Button>
+            <Margin horizontal={'20px'} />
+            <Button
+              onClick={() => {
+                setPageIdx(0);
+                apiRequest();
+              }}
+              width={'40px'}
+              height={'40px'}
+              style={{ marginBottom: '2px' }}
+              variant={'transparent'}>
+              <FontAwesomeIcon
+                icon={faSyncAlt}
+                color={colorSettings.keyColor}
+              />
+            </Button>
+            <Margin horizontal={'10px'} />
+          </Flex>
         </Flex>
         <Margin vertical={'10px'} />
-
+        <Flex width={'100%'} vertical>
+          {Object.entries(query).map(([_k, _v]) => (
+            <Flex width={'100%'} horizontal key={`AdminTable_search_${_k}`}>
+              <Picklist
+                onChange={(value) =>
+                  setQuery({ ...query, [_k]: value.name as string | undefined })
+                }
+                value={{
+                  name: _k,
+                  label: `${_k[0].toUpperCase()}${_k.slice(1)}`,
+                }}>
+                {Object.keys(props.contents).map((v) => {
+                  if (Object.keys(query).indexOf(v) !== -1) return;
+                  return (
+                    <Option
+                      key={`PickListOption_search_${v}`}
+                      name={v}
+                      label={`${[v[0].toUpperCase()]}${v.slice(1)}`}
+                    />
+                  );
+                })}
+              </Picklist>
+              <Input />
+            </Flex>
+          ))}
+          {vacantKey && (
+            <Flex width={'100%'} horizontal center>
+              <Button
+                variant={'transparent'}
+                onClick={() => {
+                  setQuery({
+                    ...query,
+                    [vacantKey]: undefined,
+                  });
+                  setVacantKey(getVacantKey(query, props.contents));
+                }}>
+                <KeyColor>+</KeyColor>
+              </Button>
+            </Flex>
+          )}
+        </Flex>
+        <Margin vertical={'10px'} />
         <Color.key>
           <Flex horizontal>
-            <Table keyField="_id" data={data?.data} isLoading={isLoading}>
+            <Table
+              keyField="_id"
+              data={data?.data}
+              isLoading={isLoading}
+              onSort={handleSort}
+              sortDirection={sort?.direction}
+              sortedBy={sort?.target}>
               {Object.entries(props.contents).map(([k, v]) => {
                 return (
                   v as {
@@ -263,36 +362,12 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
             </Table>
           </Flex>
           <Margin vertical={'10px'} />
-          <Flex center>
-            {/* Pagination Button */}
-            <Button
-              onClick={() => {
-                if (pageIdx === 0) return;
-                setPageIdx(pageIdx - 1);
-              }}
-              width={'30px'}
-              height={'40px'}
-              style={{ marginLeft: '2px' }}>
-              {pageIdx === 0 ? '·' : '❮'}
-            </Button>
-            {PaginationButton({ data, limit, pageIdx, setPageIdx, isLoading })}
-            <Button
-              onClick={() => {
-                if (
-                  pageIdx ===
-                  getPaginationCount(data?.length || 0, limit) - 1
-                )
-                  return;
-                setPageIdx(pageIdx + 1);
-              }}
-              width={'30px'}
-              height={'40px'}
-              style={{ marginLeft: '2px' }}>
-              {pageIdx === getPaginationCount(data?.length || 0, limit) - 1
-                ? '·'
-                : '❯'}
-            </Button>
-          </Flex>
+          <Pagination
+            pages={getPaginationCount(data?.length || 0, limit)}
+            onChange={(e, page) => setPageIdx(page - 1)}
+            activePage={pageIdx + 1}
+            variant={'shaded'}
+          />
         </Color.key>
       </Flex>
       <ReactModal

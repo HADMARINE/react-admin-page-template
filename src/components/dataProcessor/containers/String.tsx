@@ -27,7 +27,6 @@ const justifyDirection = (
 const StringContainer = (props: Props) => {
   return props.isChanging ? (
     <Flex
-      flex={props.flex}
       horizontal
       center={props.center}
       left={props.left}
@@ -45,7 +44,11 @@ const StringContainer = (props: Props) => {
       />
     </Flex>
   ) : (
-    <Column header={props.title} field={props.key} />
+    <Column
+      sortable={props.sortable || true}
+      header={props.title}
+      field={props.key}
+    />
   );
 };
 

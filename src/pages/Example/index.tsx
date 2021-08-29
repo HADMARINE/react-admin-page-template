@@ -66,23 +66,6 @@ export default class Index extends Component<Props> {
           <Button onClick={() => this.setState({ isModalOpen: false })}>
             Close
           </Button>
-          <ComponentWrapper>
-            {/* <StringContainer
-              isChanging={this.state.isStringChanging}
-              onChange={this.handleChange}
-              flex={1}
-              title={'str1_title'}
-              left
-              fontSize={'20px'}
-            />
-            <StringContainer
-              isChanging={this.state.isStringChanging}
-              onChange={this.handleChange}
-              flex={2}
-              title={'str2_title'}
-              center
-            /> */}
-          </ComponentWrapper>
           <Button
             onClick={() =>
               this.setState({ isStringChanging: !this.state.isStringChanging })
@@ -92,20 +75,18 @@ export default class Index extends Component<Props> {
 
           <AdminTable
             contents={{
-              name: __DataTypes.string({ title: 'Name', flex: 1 }),
-              email: __DataTypes.string({ title: 'Email', flex: 2 }),
+              name: __DataTypes.string({ title: 'Name' }),
+              email: __DataTypes.string({ title: 'Email' }),
               enum: __DataTypes.enum({
                 title: 'Enum',
-                flex: 1,
                 choices: ['a', 'b'],
               }),
             }}
             getApi={async (_props: { skip: number; limit: number }) => {
-              await new Promise((resolve: any) => setTimeout(resolve, 2000));
+              await new Promise((resolve: any) => setTimeout(resolve, 500));
               return {
                 result: true,
                 length: 20,
-                sortMethod: ['newest', 'oldest', 'name', 'email'],
                 data: [
                   {
                     _id: '1',
@@ -129,6 +110,7 @@ export default class Index extends Component<Props> {
             deleteApi={async () => ({
               result: true,
             })}
+            title={'Hello world'}
           />
 
           <DateTimeContainer value={this.state.date} />
