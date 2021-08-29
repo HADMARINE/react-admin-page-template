@@ -162,8 +162,7 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
     };
   }, [data]);
 
-  async function apiRequest() {
-    // debounce here
+  const apiRequest = async () => {
     setIsLoading(true);
     setData(undefined);
     const getApiProps: Parameters<AdminTableGetApi<any>>[0] = {
@@ -183,7 +182,9 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
     }
     setData(await props.getApi(getApiProps));
     setIsLoading(false);
-  }
+  };
+
+  const apiRequestDebounce = _.debounce(apiRequest, 500);
 
   useEffect(() => {
     // check modifyIdx and deleteIdx are -1
@@ -202,7 +203,14 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
     return () => {
       return;
     };
-  }, [pageIdx, sort?.target, sort?.direction, query]);
+  }, [pageIdx, sort?.target, sort?.direction]);
+
+  useEffect(() => {
+    apiRequestDebounce();
+    return () => {
+      return;
+    };
+  }, [query]);
 
   useEffect(() => {
     limitHistory[1] = limitHistory[0];
