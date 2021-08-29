@@ -5,7 +5,6 @@ import ExStore from '@store/ExStore';
 import ReactModal from 'react-modal';
 import { ColorGen } from '@src/components/assets/Color';
 import Button from '@src/components/assets/Button';
-import StringContainer from '@src/components/dataProcessor/containers/String';
 import AdminTable from '@src/components/dataProcessor/AdminTable';
 import { __DataTypes } from '@src/components/dataProcessor';
 import DateTimeContainer from '@src/components/dataProcessor/containers/DateTime';

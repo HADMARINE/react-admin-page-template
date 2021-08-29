@@ -163,9 +163,14 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
   }, [data]);
 
   async function apiRequest() {
+    // debounce here
     setIsLoading(true);
     setData(undefined);
-    const getApiProps = { skip: pageIdx * limit, limit, order: sort };
+    const getApiProps: Parameters<AdminTableGetApi<any>>[0] = {
+      skip: pageIdx * limit,
+      limit,
+      order: sort,
+    };
     if (isQueryTabOpen) {
       const finalQuery: Record<string, any> = {};
       for (const __ of Object.entries(query)) {
@@ -197,7 +202,7 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
     return () => {
       return;
     };
-  }, [pageIdx, sort?.target, sort?.direction]);
+  }, [pageIdx, sort?.target, sort?.direction, query]);
 
   useEffect(() => {
     limitHistory[1] = limitHistory[0];

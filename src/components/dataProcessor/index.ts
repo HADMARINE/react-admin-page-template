@@ -24,6 +24,7 @@ export type AdminTableGetApi<T> = (props: {
   skip: number;
   limit: number;
   order?: { target: string; direction: 'asc' | 'desc' };
+  query?: Record<string, any>;
 }) => Promise<
   {
     result: boolean;
