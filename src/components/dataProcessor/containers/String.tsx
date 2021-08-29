@@ -9,6 +9,7 @@ interface Props extends ContainerBase<string> {
   right?: boolean;
   fontSize?: string;
   fontWeight?: number;
+  validator?: (value: any) => string | null;
 }
 
 const justifyDirection = (
