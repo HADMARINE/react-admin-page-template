@@ -28,6 +28,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import _ from 'lodash';
 import toast, { Toaster } from 'react-hot-toast';
+import { Portal } from 'react-portal';
 
 interface Props<T extends Record<string, ContainerBase<any>>> {
   contents: T;
@@ -48,7 +49,7 @@ const getPaginationCount = (length: number, limit: number) => {
 
 const limitHistory = [0, 0];
 
-const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
+const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
   type ApiType = ThenArgRecursive<
     ReturnType<AdminTableGetApi<Record<string, any>>>
   >;
@@ -89,6 +90,10 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
   const [vacantKey, setVacantKey] = useState(
     getVacantKey(query, props.contents),
   );
+
+  // useEffect(() => {
+
+  // }, [])
 
   useEffect(() => {
     setVacantKey(getVacantKey(query, props.contents));
@@ -555,6 +560,22 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
           <FlexSpacer flex={0.5} />
         </Flex>
       </ReactModal>
+    </>
+  );
+};
+
+const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
+  return (
+    <>
+      <Portal>
+        <Toaster
+          toastOptions={{
+            position: 'top-right',
+            duration: 2000,
+          }}
+        />
+      </Portal>
+      <_AdminTable {...props} />
     </>
   );
 };

@@ -9,12 +9,12 @@ import { Toaster } from 'react-hot-toast';
 const App: React.FC = () => {
   return (
     <Provider {...store}>
-      <Toaster
+      {/* <Toaster
         toastOptions={{
           position: 'top-right',
           duration: 2000,
         }}
-      />
+      /> */}
       {Router}
     </Provider>
   );
