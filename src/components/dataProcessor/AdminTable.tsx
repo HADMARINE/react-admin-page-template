@@ -416,9 +416,9 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
                   horizontal
                   key={`AdminTable_reactmodal_iter_${key}`}
                   width={'100%'}
-                  style={{ marginTop: '20px' }}>
+                  style={{ marginTop: '20px', alignItems: 'flex-start' }}>
                   <FlexSpacer flex={1} />
-                  <Flex width={'100px'}>
+                  <Flex width={'100px'} style={{ marginTop: '8px' }}>
                     <Color.key>{props.contents[key]?.pref?.title}</Color.key>
                   </Flex>
                   <Flex flex={20}>
