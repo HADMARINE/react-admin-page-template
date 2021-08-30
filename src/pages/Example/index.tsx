@@ -70,7 +70,11 @@ export default class Index extends Component<Props> {
               name: __DataTypes.string({ title: 'Name' }),
               email: __DataTypes.string({
                 title: 'Email',
-                verifier: () => 'Error!',
+                verifier: (value) => {
+                  if (value !== 'biden@whitehouse.gov') {
+                    return 'Error, biden is the president';
+                  }
+                },
               }),
               enum: __DataTypes.enum({
                 title: 'Enum',

@@ -8,6 +8,7 @@ export type PreferencesContainerBase = Partial<{
   onClick: ReactTypes.onClick<HTMLDivElement>;
   title: string;
   sortable: boolean;
+  verifier?: (value: any) => string | undefined;
 }>;
 
 // this type must include only controlling vars
@@ -19,8 +20,6 @@ export type ExclusiveContainerBase<T> = {
   error: string | undefined;
   setError: (value: string) => void;
 };
-
-// & Partial<{}>;
 
 export type AdminTableGetApi<T> = (props: {
   skip: number;

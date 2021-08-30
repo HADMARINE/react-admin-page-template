@@ -27,6 +27,7 @@ import {
   faSearchMinus,
 } from '@fortawesome/free-solid-svg-icons';
 import _ from 'lodash';
+import toast, { Toaster } from 'react-hot-toast';
 
 interface Props<T extends Record<string, ContainerBase<any>>> {
   contents: T;
@@ -170,6 +171,22 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
       return;
     };
   }, [sort]);
+
+  useEffect(() => {
+    for (const __ of Object.entries(modalFormData)) {
+      const [__key, __value] = __;
+      if (!props.contents[__key]?.pref?.verifier) continue;
+      const e = props.contents[__key].pref.verifier(__value);
+      if (e) {
+        setModifyError({ ..._.omit(modifyError, [__key]), [__key]: e });
+      } else {
+        setModifyError(_.omit(modifyError, [__key]));
+      }
+    }
+    return () => {
+      return;
+    };
+  }, [modalFormData]);
 
   const AdditionalMenu = (_props: any) => {
     const { index } = _props;
@@ -355,16 +372,19 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
               onSort={handleSort}
               sortDirection={sort?.direction}
               sortedBy={sort?.target}>
-              {Object.entries(props.contents).map(([k, v]) => {
-                return (
-                  v as {
+              {Object.entries(
+                props.contents as Record<
+                  string,
+                  {
                     func: (__props: ExclusiveContainerBase<any>) => JSX.Element;
                     pref: Omit<
                       ContainerBase<any>,
                       keyof ExclusiveContainerBase<any>
                     >;
                   }
-                ).func({
+                >,
+              ).map(([k, v]) => {
+                return v.func({
                   isChanging: false,
                   onChange: (e: any) => {
                     setModalFormData({ ...modalFormData, [k]: e.target.value });
@@ -443,6 +463,11 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
           <Button
             variant={'border'}
             onClick={() => {
+              if (Object.keys(modifyError).length) {
+                toast.error('Some inputs are invalid.');
+                return;
+              }
+
               const dat: Record<string, any> = {};
 
               const whitelistKeys = Object.keys(props.contents);
