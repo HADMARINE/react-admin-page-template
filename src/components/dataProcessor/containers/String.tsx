@@ -6,7 +6,7 @@ import { Column, Input } from 'react-rainbow-components';
 interface Props extends ContainerBase<string> {
   fontSize?: string;
   fontWeight?: number;
-  validator?: (value: any) => string | null;
+  verifier?: (value: any) => string | null;
 }
 
 const StringContainer = (props: Props) => {
