@@ -1,35 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ContainerBase } from '@components/dataProcessor/index';
 import { Flex } from '@components/assets/Wrapper';
 import { Column, Input } from 'react-rainbow-components';
 
 interface Props extends ContainerBase<string> {
-  center?: boolean;
-  left?: boolean;
-  right?: boolean;
   fontSize?: string;
   fontWeight?: number;
   validator?: (value: any) => string | null;
 }
 
-const justifyDirection = (
-  props: Props,
-  action: { center: string; left: string; right: string },
-) => {
-  if (props.left) return action.left;
-  else if (props.right) return action.right;
-  else if (props.center) return action.center;
-  return '';
-};
-
 const StringContainer = (props: Props) => {
+  const verify = () => {
+    if (!props.verifier) {
+      return;
+    }
+    const e = props.verifier(props.value);
+    if (e) {
+      props.setError(e);
+    }
+  };
+
   return props.isChanging ? (
     <Flex width={'70%'} horizontal flex={1}>
       <Input
-        onChange={props.onChange}
+        onChange={(e) => {
+          props.onChange(e);
+          verify();
+        }}
         value={props.value}
         variant={'default'}
         style={{ flex: 1 }}
+        error={props.error || undefined}
       />
     </Flex>
   ) : (

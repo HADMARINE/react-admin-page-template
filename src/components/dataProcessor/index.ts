@@ -16,6 +16,8 @@ export type ExclusiveContainerBase<T> = {
   onChange: ReactTypes.onChange;
   value?: T;
   key: string;
+  error: string | undefined;
+  setError: (value: string) => void;
 };
 
 // & Partial<{}>;

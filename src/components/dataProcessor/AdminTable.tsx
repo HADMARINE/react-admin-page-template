@@ -63,6 +63,8 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
   const [deleteIdx, setDeleteIdx] = useState(-1);
   const [modalFormData, setModalFormData] = useState<Record<string, any>>({});
 
+  const [modifyError, setModifyError] = useState<Record<string, string>>({});
+
   const [sort, setSort] = useState<
     { target: string; direction: 'asc' | 'desc' } | undefined
   >(undefined);
@@ -368,6 +370,9 @@ const AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
                     setModalFormData({ ...modalFormData, [k]: e.target.value });
                   },
                   key: k,
+                  error: modifyError[k],
+                  setError: (value: string | undefined) =>
+                    setModifyError({ ..._.omit(modifyError, [k]), [k]: value }),
                 });
               })}
               <Column field={'status'} component={AdditionalMenu} width={60} />
