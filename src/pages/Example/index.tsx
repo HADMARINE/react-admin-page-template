@@ -18,13 +18,6 @@ const Wrapper = styled.div`
   flex-direction: column;
 `;
 
-const ComponentWrapper = styled.div`
-  display: flex;
-  width: 70vw;
-  height: 200px;
-  flex-direction: row;
-`;
-
 interface Props {
   ExStore: ExStore;
 }
@@ -75,7 +68,10 @@ export default class Index extends Component<Props> {
           <AdminTable
             contents={{
               name: __DataTypes.string({ title: 'Name' }),
-              email: __DataTypes.string({ title: 'Email' }),
+              email: __DataTypes.string({
+                title: 'Email',
+                verifier: () => 'Error!',
+              }),
               enum: __DataTypes.enum({
                 title: 'Enum',
                 choices: ['a', 'b'],
