@@ -32,7 +32,13 @@ const DateTimeContainer = (props: Props) => {
       header={props.title}
       field={props.key}
       component={(v: any) => (
-        <Input disabled value={v.value} type={'datetime'} />
+        <Input
+          disabled
+          value={moment(v.value + '+00:00')
+            .local()
+            .format('YYYY-MM-DD[T]HH:mm:ss')}
+          type={'datetime'}
+        />
       )}
     />
   );
