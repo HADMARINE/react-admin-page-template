@@ -1,4 +1,5 @@
 import StringContainer from '@src/components/dataProcessor/containers/String';
+import DateTimeContainer from './containers/DateTime';
 import EnumContainer from './containers/Enum';
 
 export type ContainerBase<T> = PreferencesContainerBase &
@@ -62,4 +63,5 @@ export const __DataTypes = {
   // eslint-disable-next-line id-blacklist
   string: containerFactory(StringContainer),
   enum: containerFactory(EnumContainer),
+  dateTime: containerFactory(DateTimeContainer),
 };

@@ -7,7 +7,7 @@ import { ColorGen } from '@src/components/assets/Color';
 import Button from '@src/components/assets/Button';
 import AdminTable from '@src/components/dataProcessor/AdminTable';
 import { __DataTypes } from '@src/components/dataProcessor';
-import DateTimeContainer from '@src/components/dataProcessor/containers/DateTime';
+import moment from 'moment';
 
 const Wrapper = styled.div`
   display: flex;
@@ -80,6 +80,7 @@ export default class Index extends Component<Props> {
                 title: 'Enum',
                 choices: ['a', 'b'],
               }),
+              date: __DataTypes.dateTime({ title: 'Date' }),
             }}
             getApi={async (_props: { skip: number; limit: number }) => {
               await new Promise((resolve: any) => setTimeout(resolve, 500));
@@ -92,12 +93,16 @@ export default class Index extends Component<Props> {
                     name: 'Joe Biden',
                     email: 'biden@whitehouse.gov',
                     enum: 'a',
+                    date: moment(Date.now()).format('YYYY-MM-DD[T]HH:mm:ss'),
                   },
                   {
                     _id: '2',
                     name: 'Donald Trump',
                     email: 'trumpcard@whitehouse.gov',
                     enum: 'a',
+                    date: moment
+                      .utc(Date.now())
+                      .format('YYYY-MM-DD[T]HH:mm:ss'),
                   },
                 ],
               };
@@ -111,8 +116,6 @@ export default class Index extends Component<Props> {
             })}
             title={'Hello world'}
           />
-
-          <DateTimeContainer value={this.state.date} />
         </ReactModal>
       </Wrapper>
     );

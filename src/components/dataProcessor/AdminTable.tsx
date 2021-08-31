@@ -465,32 +465,39 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
             })}
           </Flex>
           <FlexSpacer flex={1} />
-          <Button
-            variant={'border'}
-            onClick={() => {
-              if (Object.keys(modifyError).length) {
-                toast.error('Some inputs are invalid.');
-                return;
-              }
-
-              const dat: Record<string, any> = {};
-
-              const whitelistKeys = Object.keys(props.contents);
-              Object.entries(modalFormData).forEach(([k, v]) => {
-                if (whitelistKeys.indexOf(k) !== -1) {
-                  dat[k] = v;
+          <Flex horizontal>
+            <Button
+              variant={'border'}
+              onClick={() => {
+                if (Object.keys(modifyError).length) {
+                  toast.error('Failed to save! Some values are invalid.');
+                  return;
                 }
-              });
-              // eslint-disable-next-line no-unused-expressions
-              props.patchApi &&
-                props
-                  .patchApi({ data: dat, docId: modalFormData._id })
-                  .then(() => {
-                    setModifyIdx(-1);
-                  });
-            }}>
-            Save
-          </Button>
+
+                const dat: Record<string, any> = {};
+
+                const whitelistKeys = Object.keys(props.contents);
+                Object.entries(modalFormData).forEach(([k, v]) => {
+                  if (whitelistKeys.indexOf(k) !== -1) {
+                    dat[k] = v;
+                  }
+                });
+                // eslint-disable-next-line no-unused-expressions
+                props.patchApi &&
+                  props
+                    .patchApi({ data: dat, docId: modalFormData._id })
+                    .then(() => {
+                      setModifyIdx(-1);
+                    });
+              }}>
+              Save
+            </Button>
+            <Margin horizontal={'20px'} />
+            <Button variant={'border'} onClick={() => setModifyIdx(-1)}>
+              Cancel
+            </Button>
+          </Flex>
+
           <FlexSpacer flex={0.5} />
         </Flex>
       </ReactModal>
@@ -536,27 +543,34 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
             )}
           </Flex>
           <FlexSpacer flex={1} />
-          <Button
-            variant={'border'}
-            onClick={() => {
-              const dat: Record<string, any> = {};
+          <Flex horizontal>
+            <Button
+              variant={'border'}
+              onClick={() => {
+                const dat: Record<string, any> = {};
 
-              const whitelistKeys = Object.keys(props.contents);
-              Object.entries(modalFormData).forEach(([k, v]) => {
-                if (whitelistKeys.indexOf(k) !== -1) {
-                  dat[k] = v;
-                }
-              });
-              // eslint-disable-next-line no-unused-expressions
-              props.deleteApi &&
-                props
-                  .deleteApi({ docId: data?.data?.[deleteIdx]._id })
-                  .then(() => {
-                    setDeleteIdx(-1);
-                  });
-            }}>
-            Delete
-          </Button>
+                const whitelistKeys = Object.keys(props.contents);
+                Object.entries(modalFormData).forEach(([k, v]) => {
+                  if (whitelistKeys.indexOf(k) !== -1) {
+                    dat[k] = v;
+                  }
+                });
+                // eslint-disable-next-line no-unused-expressions
+                props.deleteApi &&
+                  props
+                    .deleteApi({ docId: data?.data?.[deleteIdx]._id })
+                    .then(() => {
+                      setDeleteIdx(-1);
+                    });
+              }}>
+              Delete
+            </Button>
+            <Margin horizontal={'20px'} />
+            <Button variant={'border'} onClick={() => setDeleteIdx(-1)}>
+              Cancel
+            </Button>
+          </Flex>
+
           <FlexSpacer flex={0.5} />
         </Flex>
       </ReactModal>

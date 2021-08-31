@@ -3,10 +3,7 @@ import { ContainerBase } from '@components/dataProcessor/index';
 import { Flex } from '@components/assets/Wrapper';
 import { Column, Input } from 'react-rainbow-components';
 
-interface Props extends ContainerBase<string> {
-  fontSize?: string;
-  fontWeight?: number;
-}
+type Props = ContainerBase<string>;
 
 const StringContainer = (props: Props) => {
   return props.isChanging ? (
