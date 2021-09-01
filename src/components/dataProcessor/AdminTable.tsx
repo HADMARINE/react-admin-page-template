@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useReducer, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   AdminTableGetApi,
   ContainerBase,
@@ -318,7 +318,7 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
               </KeyColor>
             </Flex>
             <Margin vertical={'20px'} />
-            {Object.entries(query).map(([_k, _v]) => (
+            {Object.entries(query).map(([_k]) => (
               <Flex width={'100%'} horizontal key={`AdminTable_search_${_k}`}>
                 <Picklist
                   onChange={(value) => {

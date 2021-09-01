@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Flex } from '@src/components/assets/Wrapper';
 import { ContainerBase } from '..';
 import { Column, Input } from 'react-rainbow-components';

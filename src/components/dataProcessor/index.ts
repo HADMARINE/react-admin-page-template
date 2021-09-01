@@ -1,3 +1,4 @@
+/* eslint-disable id-blacklist */
 import StringContainer from '@src/components/dataProcessor/containers/String';
 import DateTimeContainer from './containers/DateTime';
 import EnumContainer from './containers/Enum';
@@ -64,7 +65,6 @@ export function containerFactory<T>(
 }
 
 export const __DataTypes = {
-  // eslint-disable-next-line id-blacklist
   string: containerFactory(StringContainer, 'string'),
   enum: containerFactory(EnumContainer, 'enum'),
   dateTime: containerFactory(DateTimeContainer, 'datetime'),
