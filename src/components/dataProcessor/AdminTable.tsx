@@ -31,6 +31,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { Portal } from 'react-portal';
 import { useDebounce } from 'use-debounce/lib';
 import moment from 'moment';
+import { preciseTypeof } from '@src/util/preciseTypeof';
 
 interface Props<T extends Record<string, ContainerBase<any>>> {
   contents: T;
@@ -352,7 +353,6 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
             ))}
             {vacantKey && (
               <Flex width={'100%'} horizontal center>
-                {/* <FlexSpacer flex={1} /> */}
                 <Button
                   variant={'border'}
                   onClick={() => {
@@ -369,7 +369,6 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
                     />
                   </KeyColor>
                 </Button>
-                {/* <FlexSpacer flex={3.5} /> */}
               </Flex>
             )}
           </Flex>
@@ -428,7 +427,13 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
           const modifyFormStack: Record<string, any> = {};
           Object.entries(data?.data?.[modifyIdx] || {}).forEach(
             ([key, value]) => {
-              modifyFormStack[key] = value;
+              if (preciseTypeof(value) === 'date') {
+                modifyFormStack[key] = moment(value + '+00:00')
+                  .local()
+                  .format('YYYY-MM-DD[T]HH:mm:ss');
+              } else {
+                modifyFormStack[key] = value;
+              }
             },
           );
           setModalFormData(modifyFormStack);
@@ -486,7 +491,12 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
                 const whitelistKeys = Object.keys(props.contents);
                 Object.entries(modalFormData).forEach(([k, v]) => {
                   if (whitelistKeys.indexOf(k) !== -1) {
-                    dat[k] = v;
+                    if (preciseTypeof(v) === 'date') {
+                      dat[k] = moment.utc(v).format('YYYY-MM-DD[T]HH:mm:ss');
+                      console.log(dat[k]);
+                    } else {
+                      dat[k] = v;
+                    }
                   }
                 });
                 // eslint-disable-next-line no-unused-expressions
@@ -517,7 +527,13 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
           const modifyFormStack: Record<string, any> = {};
           Object.entries(data?.data?.[deleteIdx] || {}).forEach(
             ([key, value]) => {
-              modifyFormStack[key] = value;
+              if (!isNaN(new Date(value) as any)) {
+                modifyFormStack[key] = moment(value + '+00:00')
+                  .local()
+                  .format('YYYY-MM-DD[T]HH:mm:ss');
+              } else {
+                modifyFormStack[key] = value;
+              }
             },
           );
           setModalFormData(modifyFormStack);

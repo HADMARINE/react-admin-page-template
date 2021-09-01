@@ -7499,18 +7499,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express-quick-builder@npm:^3.0.3":
-  version: 3.0.7
-  resolution: "express-quick-builder@npm:3.0.7"
-  dependencies:
-    chalk: ^4.1.1
-    clear-logger: ^1.0.5
-    express: ^4.17.1
-    http-shutdown: ^1.2.2
-  checksum: 779096bc43a99677ae9722decacad3f21fe4b2b4b0d93644669c793a57b757a2ddfb9e035eb8c4dc77474d4302f4444fad6314b30787f9767ffa1f9007aa1a94
-  languageName: node
-  linkType: hard
-
 "express@npm:^4.17.1":
   version: 4.17.1
   resolution: "express@npm:4.17.1"
@@ -8851,13 +8839,6 @@ fsevents@^1.2.7:
     follow-redirects: ^1.0.0
     requires-port: ^1.0.0
   checksum: f5bd96bf83e0b1e4226633dbb51f8b056c3e6321917df402deacec31dd7fe433914fc7a2c1831cf7ae21e69c90b3a669b8f434723e9e8b71fd68afe30737b6a5
-  languageName: node
-  linkType: hard
-
-"http-shutdown@npm:^1.2.2":
-  version: 1.2.2
-  resolution: "http-shutdown@npm:1.2.2"
-  checksum: 5dccd94f4fe4f51f9cbd7ec4586121160cd6470728e581662ea8032724440d891c4c92b8210b871ac468adadb3c99c40098ad0f752a781a550abae49dfa26206
   languageName: node
   linkType: hard
 
@@ -14512,7 +14493,6 @@ fsevents@^1.2.7:
     eslint-config-prettier: ^8.3.0
     eslint-plugin-babel: ^5.3.1
     eslint-plugin-jest: ^24.4.0
-    express-quick-builder: ^3.0.3
     identity-obj-proxy: ^3.0.0
     immutable: 4.0.0-rc.14
     jest: 26.6.0
