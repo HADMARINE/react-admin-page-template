@@ -17,10 +17,11 @@ export type ExclusiveContainerBase<T> = {
   isChanging: boolean;
   onChange: ReactTypes.onChange;
   value?: T;
-  key: string;
-  error: string | undefined;
-  setError: (value: string) => void;
+  key?: string;
+  error?: string | undefined;
 };
+
+export type ContainerTypes = 'string' | 'enum' | 'datetime';
 
 export type AdminTableGetApi<T> = (props: {
   skip: number;
@@ -46,22 +47,24 @@ export function AdminTableGetApiDataProcessor<T extends Record<string, any>>(
   };
 }
 
-// eslint-disable-next-line no-unused-vars
-function containerFactory<T>(container: (arg0: T) => JSX.Element) {
+export function containerFactory<T>(
+  container: (arg0: T) => JSX.Element,
+  type: ContainerTypes,
+) {
   type CType = T extends ContainerBase<any> ? T['value'] : any;
   return (pref: Omit<T, keyof ExclusiveContainerBase<CType>>) => {
     return {
       func: (ctrl: ExclusiveContainerBase<CType>) => {
         return container(Object.assign(pref, ctrl) as any);
       },
-      pref,
+      pref: Object.assign(pref, { containerType: type }),
     };
   };
 }
 
 export const __DataTypes = {
   // eslint-disable-next-line id-blacklist
-  string: containerFactory(StringContainer),
-  enum: containerFactory(EnumContainer),
-  dateTime: containerFactory(DateTimeContainer),
+  string: containerFactory(StringContainer, 'string'),
+  enum: containerFactory(EnumContainer, 'enum'),
+  dateTime: containerFactory(DateTimeContainer, 'datetime'),
 };

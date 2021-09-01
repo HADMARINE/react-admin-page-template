@@ -1,5 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { AdminTableGetApi, ContainerBase, ExclusiveContainerBase } from '.';
+import React, { useCallback, useEffect, useReducer, useState } from 'react';
+import {
+  AdminTableGetApi,
+  ContainerBase,
+  ContainerTypes,
+  ExclusiveContainerBase,
+  PreferencesContainerBase,
+} from '.';
 import Color, { KeyColor } from '../assets/Color';
 import { Flex, FlexSpacer } from '../assets/Wrapper';
 import colorSettings from '@settings/color.json';
@@ -32,7 +38,15 @@ import { Portal } from 'react-portal';
 import { useDebounce } from 'use-debounce/lib';
 import moment from 'moment';
 
-interface Props<T extends Record<string, ContainerBase<any>>> {
+interface Props<
+  T extends Record<
+    string,
+    {
+      pref: PreferencesContainerBase & { containerType: ContainerTypes };
+      func: (arg0: ExclusiveContainerBase<any>) => JSX.Element;
+    }
+  >,
+> {
   contents: T;
   getApi: AdminTableGetApi<
     { [P in keyof T]: T[P] extends ContainerBase<infer U> ? U : any }
@@ -55,7 +69,6 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
   type ApiType = ThenArgRecursive<
     ReturnType<AdminTableGetApi<Record<string, any>>>
   >;
-
   const [data, setData] = useState<ApiType>();
   const [isLoading, setIsLoading] = useState(false);
   const [isQueryTabOpen, setIsQueryTabOpen] = useState(false);
@@ -403,8 +416,6 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
                   },
                   key: k,
                   error: modifyError[k],
-                  setError: (value: string | undefined) =>
-                    setModifyError({ ..._.omit(modifyError, [k]), [k]: value }),
                 });
               })}
               <Column field={'status'} component={AdditionalMenu} width={60} />
@@ -428,7 +439,13 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
           const modifyFormStack: Record<string, any> = {};
           Object.entries(data?.data?.[modifyIdx] || {}).forEach(
             ([key, value]) => {
-              modifyFormStack[key] = value;
+              if (props.contents[key]?.pref?.containerType === 'datetime') {
+                modifyFormStack[key] = moment(value + '+00:00')
+                  .local()
+                  .format('YYYY-MM-DD[T]HH:mm:ss');
+              } else {
+                modifyFormStack[key] = value;
+              }
             },
           );
           setModalFormData(modifyFormStack);
@@ -458,6 +475,7 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
                       value,
                       name: key,
                       isChanging: true,
+                      error: modifyError[key],
                       onChange: (e: any) => {
                         setModalFormData({
                           ...modalFormData,
@@ -486,9 +504,16 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
                 const whitelistKeys = Object.keys(props.contents);
                 Object.entries(modalFormData).forEach(([k, v]) => {
                   if (whitelistKeys.indexOf(k) !== -1) {
-                    dat[k] = v;
+                    if (props.contents[k].pref.containerType === 'datetime') {
+                      dat[k] = moment
+                        .utc(moment(v))
+                        .format('YYYY-MM-DD[T]HH:mm:ss');
+                    } else {
+                      dat[k] = v;
+                    }
                   }
                 });
+
                 // eslint-disable-next-line no-unused-expressions
                 props.patchApi &&
                   props
@@ -539,9 +564,10 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
 
                   const column = props.contents[key].func({
                     value,
-                    name: key,
                     isChanging: false,
                     key,
+                    onChange: () => undefined,
+                    name: key,
                   });
 
                   return column;
