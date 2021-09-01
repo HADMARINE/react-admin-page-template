@@ -86,9 +86,7 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
   const [sort, setSort] = useState<
     { target: string; direction: 'asc' | 'desc' } | undefined
   >(undefined);
-  const [query, setQuery] = useState<Record<string, string | undefined>>({
-    name: undefined,
-  });
+  const [query, setQuery] = useState<Record<string, string | undefined>>();
 
   const getVacantKey = (
     _query: Record<string, any>,
@@ -104,7 +102,7 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
   };
 
   const [vacantKey, setVacantKey] = useState(
-    getVacantKey(query, props.contents),
+    getVacantKey(query || {}, props.contents),
   );
 
   // useEffect(() => {
@@ -112,7 +110,7 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
   // }, [])
 
   useEffect(() => {
-    setVacantKey(getVacantKey(query, props.contents));
+    setVacantKey(getVacantKey(query || {}, props.contents));
     return () => {
       return;
     };
@@ -134,7 +132,7 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
     };
     if (isQueryTabOpen) {
       const finalQuery: Record<string, any> = {};
-      for (const __ of Object.entries(query)) {
+      for (const __ of Object.entries(query || {})) {
         const [__k, __v] = __;
         if (__v) {
           finalQuery[__k] = __v;
@@ -318,7 +316,7 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
               </KeyColor>
             </Flex>
             <Margin vertical={'20px'} />
-            {Object.entries(query).map(([_k]) => (
+            {Object.entries(query || {}).map(([_k]) => (
               <Flex width={'100%'} horizontal key={`AdminTable_search_${_k}`}>
                 <Picklist
                   onChange={(value) => {
@@ -333,7 +331,7 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
                     label: `${_k[0].toUpperCase()}${_k.slice(1)}`,
                   }}>
                   {Object.keys(props.contents).map((v) => {
-                    if (Object.keys(query).indexOf(v) !== -1) return;
+                    if (Object.keys(query || {}).indexOf(v) !== -1) return;
                     return (
                       <Option
                         key={`PickListOption_search_${v}`}
@@ -348,7 +346,7 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
                   onChange={(e) => {
                     setQuery({ ...query, [_k]: e.target.value });
                   }}
-                  value={query[_k]}
+                  value={(query || {})[_k]}
                 />
                 <Button
                   variant={'neutral'}
@@ -373,7 +371,7 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
                       ...query,
                       [vacantKey]: undefined,
                     });
-                    setVacantKey(getVacantKey(query, props.contents));
+                    setVacantKey(getVacantKey(query || {}, props.contents));
                   }}>
                   <KeyColor>
                     <FontAwesomeIcon
@@ -473,7 +471,6 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
                   <Flex flex={20}>
                     {props.contents[key].func({
                       value,
-                      name: key,
                       isChanging: true,
                       error: modifyError[key],
                       onChange: (e: any) => {
@@ -571,7 +568,6 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
                     isChanging: false,
                     key,
                     onChange: () => undefined,
-                    name: key,
                   });
 
                   return column;
