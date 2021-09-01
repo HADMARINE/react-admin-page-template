@@ -29,6 +29,8 @@ import {
 import _ from 'lodash';
 import toast, { Toaster } from 'react-hot-toast';
 import { Portal } from 'react-portal';
+import { useDebounce } from 'use-debounce/lib';
+import moment from 'moment';
 
 interface Props<T extends Record<string, ContainerBase<any>>> {
   contents: T;
@@ -64,6 +66,7 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
   const [modifyIdx, setModifyIdx] = useState(-1);
   const [deleteIdx, setDeleteIdx] = useState(-1);
   const [modalFormData, setModalFormData] = useState<Record<string, any>>({});
+  const [debouncedModalFormData] = useDebounce(modalFormData, 500);
 
   const [modifyError, setModifyError] = useState<Record<string, string>>({});
 
@@ -191,7 +194,7 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
     return () => {
       return;
     };
-  }, [modalFormData]);
+  }, [debouncedModalFormData]);
 
   const AdditionalMenu = (_props: any) => {
     const { index } = _props;
@@ -203,8 +206,12 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
         icon={<FontAwesomeIcon icon={faEllipsisV} />}
         buttonVariant="base"
         className="rainbow-m-left_xx-small">
-        <MenuItem label="Edit" onClick={() => setModifyIdx(index)} />
-        <MenuItem label="Delete" onClick={() => setDeleteIdx(index)} />
+        {props.patchApi && (
+          <MenuItem label="Edit" onClick={() => setModifyIdx(index)} />
+        )}
+        {props.deleteApi && (
+          <MenuItem label="Delete" onClick={() => setDeleteIdx(index)} />
+        )}
       </ButtonMenu>
     );
   };

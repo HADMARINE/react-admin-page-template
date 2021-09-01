@@ -1,5 +1,4 @@
-import React from 'react';
-import { ColorGen } from '@src/components/assets/Color';
+import React, { useEffect } from 'react';
 import { Flex } from '@src/components/assets/Wrapper';
 import { ContainerBase } from '..';
 import { Column, Input } from 'react-rainbow-components';
@@ -12,14 +11,13 @@ const DateTimeContainer = (props: Props) => {
     <Flex width={'70%'} horizontal flex={1}>
       <Input
         onChange={(e) => {
-          e.target.value = moment
-            .utc(e.target.value)
+          e.target.value = moment(e.target.value)
+            .local()
             .format('YYYY-MM-DD[T]HH:mm:ss');
           props.onChange(e);
         }}
-        value={moment(props.value + '+00:00')
-          .local()
-          .format('YYYY-MM-DD[T]HH:mm:ss')}
+        // value={moment(props.value).local().format('YYYY-MM-DD[T]HH:mm:ss')}
+        value={props.value as any}
         variant={'default'}
         style={{ flex: 1 }}
         error={props.error || undefined}
@@ -32,13 +30,11 @@ const DateTimeContainer = (props: Props) => {
       header={props.title}
       field={props.key}
       component={(v: any) => (
-        <Input
-          disabled
-          value={moment(v.value + '+00:00')
+        <>
+          {moment(v.value + '+00:00')
             .local()
-            .format('YYYY-MM-DD[T]HH:mm:ss')}
-          type={'datetime'}
-        />
+            .format('YYYY-MM-DD HH:mm:ss [(Local Time)]')}
+        </>
       )}
     />
   );
