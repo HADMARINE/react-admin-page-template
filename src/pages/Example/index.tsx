@@ -81,6 +81,7 @@ export default class Index extends Component<Props> {
                 choices: ['a', 'b'],
               }),
               date: __DataTypes.dateTime({ title: 'Date' }),
+              num: __DataTypes.number({ title: 'Number' }),
             }}
             getApi={async (_props: { skip: number; limit: number }) => {
               await new Promise((resolve: any) => setTimeout(resolve, 500));
@@ -94,6 +95,7 @@ export default class Index extends Component<Props> {
                     email: 'biden@whitehouse.gov',
                     enum: 'a',
                     date: moment(Date.now()).format('YYYY-MM-DD[T]HH:mm:ss'),
+                    num: 1,
                   },
                   {
                     _id: '2',
@@ -103,6 +105,7 @@ export default class Index extends Component<Props> {
                     date: moment
                       .utc(Date.now())
                       .format('YYYY-MM-DD[T]HH:mm:ss'),
+                    num: 2,
                   },
                 ],
               };

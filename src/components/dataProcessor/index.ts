@@ -1,6 +1,7 @@
 import StringContainer from '@src/components/dataProcessor/containers/String';
 import DateTimeContainer from './containers/DateTime';
 import EnumContainer from './containers/Enum';
+import NumberContainer from './containers/Number';
 
 export type ContainerBase<T> = PreferencesContainerBase &
   ExclusiveContainerBase<T>;
@@ -21,7 +22,7 @@ export type ExclusiveContainerBase<T> = {
   error?: string | undefined;
 };
 
-export type ContainerTypes = 'string' | 'enum' | 'datetime';
+export type ContainerTypes = 'string' | 'enum' | 'datetime' | 'number';
 
 export type AdminTableGetApi<T> = (props: {
   skip: number;
@@ -67,4 +68,5 @@ export const __DataTypes = {
   string: containerFactory(StringContainer, 'string'),
   enum: containerFactory(EnumContainer, 'enum'),
   dateTime: containerFactory(DateTimeContainer, 'datetime'),
+  number: containerFactory(NumberContainer, 'number'),
 };

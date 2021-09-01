@@ -508,6 +508,10 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
                       dat[k] = moment
                         .utc(moment(v))
                         .format('YYYY-MM-DD[T]HH:mm:ss');
+                    } else if (
+                      props.contents[k].pref.containerType === 'number'
+                    ) {
+                      dat[k] = parseFloat(v);
                     } else {
                       dat[k] = v;
                     }
