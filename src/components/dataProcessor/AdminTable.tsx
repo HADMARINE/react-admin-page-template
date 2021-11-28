@@ -37,6 +37,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { Portal } from 'react-portal';
 import { useDebounce } from 'use-debounce/lib';
 import moment from 'moment';
+import { useIsMount } from '@src/util/hooks/useIsMount';
 
 interface Props<
   T extends Record<
@@ -48,9 +49,9 @@ interface Props<
   >,
 > {
   contents: T;
-  getApi: AdminTableGetApi<
-    { [P in keyof T]: T[P] extends ContainerBase<infer U> ? U : any }
-  >;
+  getApi: AdminTableGetApi<{
+    [P in keyof T]: T[P] extends ContainerBase<infer U> ? U : any;
+  }>;
   patchApi?: (data: {
     data: Record<string, any>;
     docId: string;
@@ -59,16 +60,32 @@ interface Props<
   title?: string;
 }
 
+type ApiType = ThenArgRecursive<
+  ReturnType<AdminTableGetApi<Record<string, any>>>
+>;
+
 const getPaginationCount = (length: number, limit: number) => {
   return Math.ceil(length / limit);
+};
+
+const getVacantKey = (
+  _query: Record<string, any>,
+  contents: Record<string, any>,
+): string | null => {
+  const queryKeys = Object.keys(_query);
+  for (const key of Object.keys(contents)) {
+    if (queryKeys.indexOf(key) === -1) {
+      return key as string;
+    }
+  }
+  return null;
 };
 
 const limitHistory = [0, 0];
 
 const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
-  type ApiType = ThenArgRecursive<
-    ReturnType<AdminTableGetApi<Record<string, any>>>
-  >;
+  const isMount = useIsMount();
+
   const [data, setData] = useState<ApiType>();
   const [isLoading, setIsLoading] = useState(false);
   const [isQueryTabOpen, setIsQueryTabOpen] = useState(false);
@@ -88,26 +105,9 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
   >(undefined);
   const [query, setQuery] = useState<Record<string, string | undefined>>();
 
-  const getVacantKey = (
-    _query: Record<string, any>,
-    contents: Record<string, any>,
-  ): string | null => {
-    const queryKeys = Object.keys(_query);
-    for (const key of Object.keys(contents)) {
-      if (queryKeys.indexOf(key) === -1) {
-        return key as string;
-      }
-    }
-    return null;
-  };
-
   const [vacantKey, setVacantKey] = useState(
     getVacantKey(query || {}, props.contents),
   );
-
-  // useEffect(() => {
-
-  // }, [])
 
   useEffect(() => {
     setVacantKey(getVacantKey(query || {}, props.contents));
@@ -115,12 +115,6 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
       return;
     };
   }, [query]);
-
-  useEffect(() => {
-    return () => {
-      return;
-    };
-  }, [data]);
 
   const apiRequest = async () => {
     setIsLoading(true);
@@ -147,6 +141,7 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
   const apiRequestDebounce = useCallback(_.debounce(apiRequest, 500), []);
 
   useEffect(() => {
+    if (isMount) return;
     // check modifyIdx and deleteIdx are -1
     if (modifyIdx * deleteIdx !== 1) {
       return;
@@ -160,12 +155,10 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
 
   useEffect(() => {
     apiRequest();
-    return () => {
-      return;
-    };
   }, [pageIdx, sort?.target, sort?.direction, isQueryTabOpen]);
 
   useEffect(() => {
+    if (isMount) return;
     apiRequestDebounce();
     return () => {
       return;
@@ -173,6 +166,7 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
   }, [query]);
 
   useEffect(() => {
+    if (isMount) return;
     limitHistory[1] = limitHistory[0];
     limitHistory[0] = limit;
 
@@ -457,6 +451,9 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
             </Text>
             <Margin vertical={'50px'} />
             {Object.entries(modalFormData).map(([key, value]) => {
+              if (props.contents[key]?.pref?.editable === false) {
+                return;
+              }
               if (!props.contents[key]) return;
               return (
                 <Flex
@@ -521,6 +518,7 @@ const _AdminTable = function <T extends Record<string, any>>(props: Props<T>) {
                     .patchApi({ data: dat, docId: modalFormData._id })
                     .then(() => {
                       setModifyIdx(-1);
+                      toast.success('Saved successfully!');
                     });
               }}>
               Save

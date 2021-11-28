@@ -82,8 +82,9 @@ export default class Index extends Component<Props> {
               }),
               date: __DataTypes.dateTime({ title: 'Date' }),
               num: __DataTypes.number({ title: 'Number' }),
+              markdown: __DataTypes.markdown({ title: 'Markdown' }),
             }}
-            getApi={async (_props: { skip: number; limit: number }) => {
+            getApi={async (_props) => {
               await new Promise((resolve: any) => setTimeout(resolve, 500));
               return {
                 result: true,
@@ -96,6 +97,7 @@ export default class Index extends Component<Props> {
                     enum: 'a',
                     date: moment(Date.now()).format('YYYY-MM-DD[T]HH:mm:ss'),
                     num: 1,
+                    markdown: '# dfdfd',
                   },
                   {
                     _id: '2',
@@ -106,15 +108,16 @@ export default class Index extends Component<Props> {
                       .utc(Date.now())
                       .format('YYYY-MM-DD[T]HH:mm:ss'),
                     num: 2,
+                    markdown: '# dfdfd',
                   },
                 ],
               };
             }}
-            patchApi={async (v: any) => {
+            patchApi={async (v) => {
               console.log('NAN NAN NUU', v);
               return { result: true };
             }}
-            deleteApi={async () => ({
+            deleteApi={async (d) => ({
               result: true,
             })}
             title={'Hello world'}
