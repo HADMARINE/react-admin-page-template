@@ -37,7 +37,7 @@
     "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
     "eqb-request-client": "0.7.0-rc3",
-    "express-quick-builder": "^3.0.3",
+    "express-quick-builder": "^3.0.11",
     "immutable": "4.0.0-rc.14",
     "lodash": "^4.17.21",
     "mobx": "^6.3.2",
