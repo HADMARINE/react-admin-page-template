@@ -43,7 +43,7 @@
     "mobx": "^6.3.2",
     "mobx-react": "^7.2.0",
     "mobx-react-router": "^4.1.0",
-    "mobx-state-tree": "^5.0.2",
+    "mobx-state-tree": "^5.1.3",
     "moment": "^2.29.1",
     "node-sass": "^6.0.1",
     "prop-types": "^15.7.2",
