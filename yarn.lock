@@ -15337,7 +15337,7 @@ fsevents@^1.2.7:
     tailwindcss: "npm:@tailwindcss/postcss7-compat@^2.2.7"
     ts-jest: ^26.0.0
     typescript: ^4.3.5
-    use-debounce: ^7.0.0
+    use-debounce: ^9.0.2
     web-vitals: ^2.1.0
   languageName: unknown
   linkType: soft
@@ -18456,12 +18456,12 @@ typescript@^4.3.5:
   languageName: node
   linkType: hard
 
-"use-debounce@npm:^7.0.0":
-  version: 7.0.0
-  resolution: "use-debounce@npm:7.0.0"
+"use-debounce@npm:^9.0.2":
+  version: 9.0.2
+  resolution: "use-debounce@npm:9.0.2"
   peerDependencies:
     react: ">=16.8.0"
-  checksum: 966629520977488b5add406487c0945bc77e6b940969a1c71b32e083a711ae3a73c2627e439a29ff20583b994ff382f49d16231aab5920eb6282f048e5e5d86e
+  checksum: fb7d9a263e6d5e9d246118b90f11298156b7973aaff315d70bfeb154de5fb8c8bcdde3058da2f57d40a014eec6545c3e3a00cb4dbb2d9323adf2a169f8a492bb
   languageName: node
   linkType: hard
 
