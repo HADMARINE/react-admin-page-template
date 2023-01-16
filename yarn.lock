@@ -14388,12 +14388,12 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.3.2":
-  version: 2.4.0
-  resolution: "prettier@npm:2.4.0"
+"prettier@npm:^2.8.3":
+  version: 2.8.3
+  resolution: "prettier@npm:2.8.3"
   bin:
     prettier: bin-prettier.js
-  checksum: ac1bf07566dad5f58469e6d8a954bd5c0f833935597deb00330e9f673e14e4cf81e07dee7eff5776c0edebe11358d199f332d9940be40c8b455516034e553ce0
+  checksum: 92f2ceb522d454370e02082aa74ad27388672f7cee8975028b59517c069fe643bdc73e322675c8faf2ff173d7a626d1a6389f26b474000308e793aa25fff46e5
   languageName: node
   linkType: hard
 
@@ -15313,7 +15313,7 @@ fsevents@^1.2.7:
     moment: ^2.29.1
     node-sass: ^6.0.1
     postcss: ^7.0.36
-    prettier: ^2.3.2
+    prettier: ^2.8.3
     prop-types: ^15.7.2
     query-string: ^7.0.1
     quickcert: ^1.1.2
