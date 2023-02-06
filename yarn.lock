@@ -9155,10 +9155,10 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"immutable@npm:4.0.0-rc.14":
-  version: 4.0.0-rc.14
-  resolution: "immutable@npm:4.0.0-rc.14"
-  checksum: 40941a80dd957361471697388019ae09be28d046a2c79d88dc81b215e6f2ed68a8c7356b9d99bb814a2d978c60d0bdf78997f65403f87adca60d7e11993e8c91
+"immutable@npm:4.2.4":
+  version: 4.2.4
+  resolution: "immutable@npm:4.2.4"
+  checksum: 3be84eded37b05e65cad57bfba630bc1bf170c498b7472144bc02d2650cc9baef79daf03574a9c2e41d195ebb55a1c12c9b312f41ee324b653927b24ad8bcaa7
   languageName: node
   linkType: hard
 
@@ -15303,7 +15303,7 @@ fsevents@^1.2.7:
     eslint-plugin-jest: ^24.4.0
     express-quick-builder: ^3.0.3
     identity-obj-proxy: ^3.0.0
-    immutable: 4.0.0-rc.14
+    immutable: 4.2.4
     jest: 26.6.0
     lodash: ^4.17.21
     mobx: ^6.3.2
