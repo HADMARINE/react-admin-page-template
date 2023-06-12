@@ -59,7 +59,7 @@
     "react-portal": "^4.2.1",
     "react-rainbow-components": "^1.26.0",
     "react-router": "^5.2.0",
-    "react-router-dom": "^5.2.0",
+    "react-router-dom": "^6.12.1",
     "react-scripts": "^4.0.3",
     "remark-gfm": "^3.0.1",
     "require-strip-json-comments": "^2.0.0",
