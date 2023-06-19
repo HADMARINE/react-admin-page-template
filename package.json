@@ -35,7 +35,7 @@
     "@types/react-modal": "^3.12.1",
     "axios": "^0.21.1",
     "cross-env": "^7.0.3",
-    "dotenv": "^10.0.0",
+    "dotenv": "^16.3.1",
     "eqb-request-client": "0.7.0-rc3",
     "express-quick-builder": "^3.0.3",
     "immutable": "4.0.0-rc.14",
